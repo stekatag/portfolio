@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Link from "../components/ui/link.astro";
+import Icon from "../components/ui/Icon.astro";
+import Hero from "../components/Hero.astro";
+import RepoCard from "../components/RepoCard.astro";
+
+type PinnedRepos = {
+  owner: string;
+  repo: string;
+  link: string;
+  description: string;
+  image: string;
+  language: string;
+  languageColor: string;
+  stars: number;
+  forks: number;
+};
+
+const pinnedRepos = await fetch(
+  "https://gh-pinned-repos.egoist.dev/?username=stekatag"
+);
+const repos = await pinnedRepos.json();
+---
+
+<BaseLayout
+  title="Projects | Stefan Gogov"
+  description="Learn about Stefan Gogov's most recent projects"
+>
+  <div class="stack gap-20">
+    <header class="wrapper hero">
+      <Hero
+        align="center"
+        title="My projects"
+        tagline="Showcase of my most recent projects"
+      />
+      <img
+        alt="illustration of a men coding web projects"
+        src="/assets/illustrations/projects.svg"
+      />
+    </header>
+
+    <main class="wrapper stack gap-10">
+      <div class="repos">
+        {repos.map((repo: PinnedRepos) => <RepoCard {...repo} />)}
+      </div>
+
+      <Link
+        class="link"
+        href="https://github.com/stekatag"
+        style="rounded"
+        external
+      >
+        <Icon icon="code" size="1.33em" /> See All Projects
+      </Link>
+    </main>
+  </div>
+</BaseLayout>
+
+<style lang="scss">
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 2.5rem;
+    gap: 1.5rem;
+
+    img {
+      width: 100%;
+      max-width: 22rem;
+    }
+  }
+
+  .repos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .link {
+    align-self: center;
+  }
+
+  @media (min-width: 50em) {
+    .hero {
+      flex-direction: row;
+      gap: 6rem;
+    }
+
+    .repos {
+      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    }
+  }
+</style>

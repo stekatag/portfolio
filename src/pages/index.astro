@@ -1,0 +1,124 @@
+---
+// Layout import — provides basic page elements: <head>, <nav>, <footer> etc.
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Component Imports
+import Hero from "../components/Hero.astro";
+import Icon from "../components/ui/Icon.astro";
+import Link from "../components/ui/link.astro";
+---
+
+<BaseLayout>
+  <div class="stack gap-20 lg:gap-48">
+    <div class="wrapper stack gap-8 lg:gap-20">
+      <header class="hero">
+        <Hero
+          title="I build things for the {Web}"
+          tagline="Hi, 👋 I'm Stefan. I'm a web developer enthusiast and photographer."
+          align="start"
+        >
+          <div class="roles">
+            <Link href="/contact" style="rounded">
+              <Icon icon="readCV" size="1.33em" /> See Resume
+            </Link>
+            <Link href="/about" style="roundedInverted">
+              <Icon icon="handwave" size="1.33em" /> About me
+            </Link>
+            <Link href="/projects" style="roundedInverted">
+              <Icon icon="code" size="1.33em" /> Projects
+            </Link>
+          </div>
+        </Hero>
+
+        <div class="avatar-wrapper">
+          <div class="overlay"></div>
+          <img
+            alt="Headshot of Stefan"
+            width="480"
+            height="620"
+            src="/assets/hero-img.webp"
+          />
+        </div>
+      </header>
+    </div>
+  </div>
+</BaseLayout>
+
+<style lang="scss">
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+
+    img {
+      object-fit: cover;
+      object-position: top;
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow-md);
+    }
+  }
+
+  .roles {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    a {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 50em) {
+    .hero {
+      display: grid;
+      grid-template-columns: 6fr 4fr;
+      padding-inline: 2.5rem;
+      gap: 3.75rem;
+
+      img {
+        aspect-ratio: 3 / 4;
+        border-radius: 2.5rem;
+        object-fit: cover;
+        position: relative;
+        filter: grayscale(75%) contrast(1);
+      }
+
+      .avatar-wrapper {
+        position: relative;
+      }
+
+      .overlay {
+        background-color: #d56bfbc2;
+        position: absolute;
+        width: 100%;
+        top: 0px;
+        bottom: 6px;
+        z-index: 2;
+        border-radius: 2.5rem;
+        opacity: 0.8;
+        mix-blend-mode: multiply;
+        transition: opacity 350ms linear 0s;
+
+        &:hover {
+          opacity: 0;
+          & + img {
+            filter: saturate(120%) grayscale(20%);
+          }
+        }
+      }
+    }
+
+    .roles {
+      margin-top: 0.5rem;
+      flex-direction: row;
+      gap: 0.5rem;
+
+      a {
+        width: auto;
+        justify-content: flex-start;
+      }
+    }
+  }
+</style>

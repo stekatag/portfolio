@@ -1,0 +1,20 @@
+{
+  "name": "@example/portfolio",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "deploy": "npm run build && firebase deploy",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^2.9.7"
+  },
+  "devDependencies": {
+    "sass": "^1.64.2"
+  }
+}

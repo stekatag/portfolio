@@ -1,0 +1,82 @@
+---
+type Props = {
+  href: string;
+  external?: boolean;
+  block?: boolean;
+  style?: "primary" | "rounded" | "roundedInverted";
+  class?: string;
+  [key: string]: any;
+};
+
+const {
+  href,
+  external = false,
+  block = false,
+  style = "primary",
+  class: className = "",
+  ...rest
+} = Astro.props;
+
+const styles = {
+  primary: "primary",
+  rounded: "rounded",
+  roundedInverted: "rounded inverted",
+};
+---
+
+<a
+  {href}
+  target={external ? "_blank" : undefined}
+  {...rest}
+  class:list={[styles[style], block && "block", className]}
+>
+  <slot />
+</a>
+
+<style lang="scss">
+  .primary:link,
+  .primary:visited {
+    text-decoration: 1px solid underline transparent;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color var(--theme-transition);
+
+    &:hover,
+    &:focus {
+      text-decoration-color: currentColor;
+    }
+  }
+
+  .block {
+    display: block;
+    width: 100%;
+  }
+
+  .rounded:link,
+  .rounded:visited {
+    display: flex;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+    color: var(--accent-text-over);
+    border: 2px solid var(--accent-regular);
+    background-color: var(--accent-regular);
+    border-radius: 999rem;
+    font-size: var(--text-md);
+    line-height: 1.35;
+    white-space: nowrap;
+    transition: all var(--theme-transition);
+
+    &.inverted {
+      background-color: transparent;
+      border: 2px solid var(--accent-dark);
+      color: var(--accent-dark);
+    }
+
+    &:hover,
+    &:focus {
+      background-color: var(--accent-dark);
+      border: 2px solid var(--accent-dark);
+      color: var(--accent-light);
+    }
+  }
+</style>

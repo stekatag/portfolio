@@ -1,0 +1,86 @@
+---
+import Icon from "./ui/Icon.astro";
+
+const { repo, link, description, language, languageColor } = Astro.props;
+---
+
+<a class="repo-card" href={link} title="View repo" target="_blank">
+  <div class="repo-card__header">
+    <h3 class="repo-card__title">{repo}</h3>
+    <Icon icon="github-logo" color="var(--gray-200)" size="2.5em" />
+  </div>
+  <p class="repo-card__description">
+    {description}
+  </p>
+  <div class="repo-card__footer">
+    <span
+      class="repo-card__footer-lang-color"
+      style={{
+        backgroundColor: languageColor,
+      }}></span>
+    <span class="repo-card__footer-language">{language}</span>
+  </div>
+</a>
+
+<style lang="scss">
+  .repo-card {
+    display: block;
+    text-decoration: none;
+    padding: 1.75rem;
+    background: var(--gradient-subtle);
+    border: 2.5px solid var(--accent-regular);
+    box-shadow: var(--shadow-sm);
+    border-radius: 1rem;
+    transition: var(--theme-transition);
+
+    &:hover {
+      box-shadow: var(--shadow-md);
+      border: 2.5px solid var(--accent-dark);
+      filter: brightness(1.1);
+      transform: translateY(-0.5rem);
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__title {
+      font-size: var(--text-xl);
+    }
+
+    &__description {
+      margin: 0.8rem 0;
+      color: var(--gray-200);
+
+      --max-lines: 3;
+      overflow: hidden;
+
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: var(--max-lines);
+
+      @media only screen and (min-width: 50em) {
+        min-height: 4.5rem;
+      }
+    }
+
+    &__footer {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      &-language {
+        color: var(--gray-200);
+        font-weight: bold;
+      }
+
+      &-lang-color {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 50%;
+      }
+    }
+  }
+</style>
