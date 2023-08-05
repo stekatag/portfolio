@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+import Link from "../components/ui/link.astro";
+import Icon from "../components/ui/Icon.astro";
 ---
 
 <BaseLayout title="About | Stefan Gogov" description="About Stefan Gogov">
@@ -57,6 +59,11 @@ import Hero from "../components/Hero.astro";
           <p>JavaScript, TypeScript, React, NodeJS, GraphQL, SQL, C#</p>
         </div>
       </section>
+      <section>
+        <Link class="link" href="/projects" style="rounded">
+          <Icon icon="code" size="1.33em" /> See My Projects
+        </Link>
+      </section>
     </main>
   </div>
 </BaseLayout>
@@ -87,6 +94,12 @@ import Hero from "../components/Hero.astro";
     flex-direction: column;
     gap: 0.5rem;
     color: var(--gray-200);
+
+    .link {
+      justify-self: center;
+      align-self: center;
+      grid-column: 1 / -1;
+    }
   }
 
   .section-title {

@@ -1,78 +1,65 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-
+import Link from "../components/ui/link.astro";
+import Icon from "../components/ui/Icon.astro";
 import ContactCTA from "../components/ContactCTA.astro";
 import Hero from "../components/Hero.astro";
+import Skills from "../components/Skills.astro";
 ---
 
 <BaseLayout
-  title="Resume | Stefan Gogov"
-  description="Stefan Gogov's downloadable resume"
+  title="Contact | Stefan Gogov"
+  description="Contact page of Stefan Gogov's personal portfolio."
 >
   <div class="stack gap-20">
-    <main class="wrapper about">
-      <Hero
-        title="Resume"
-        tagline="Coming soon! Page under development ⛔️👷‍♂️"
+    <header class="wrapper hero">
+      <div class="hero-content">
+        <Hero
+          align="center"
+          title="Cotact me"
+          tagline="Want to work together? I'd love to hear from you."
+        />
+        <Link class="link" href="/contact" style="rounded">
+          <Icon icon="readCV" size="1.33em" /> Download CV
+        </Link>
+      </div>
+      <img
+        alt="illustration of a men coding web projects"
+        src="/assets/illustrations/resume.svg"
       />
+    </header>
+
+    <main class="wrapper stack gap-10">
+      <Skills />
+      <ContactCTA />
     </main>
   </div>
 </BaseLayout>
 
-<style>
-  .about {
+<style lang="scss">
+  .hero {
     display: flex;
     flex-direction: column;
-    gap: 3.5rem;
-  }
+    align-items: center;
+    justify-content: center;
+    padding-inline: 2.5rem;
+    gap: 1.5rem;
 
-  img {
-    margin-top: 1.5rem;
-    border-radius: 1.5rem;
-    box-shadow: var(--shadow-md);
-  }
+    img {
+      width: 100%;
+      max-width: 22rem;
+    }
 
-  section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    color: var(--gray-200);
-  }
-
-  .section-title {
-    grid-column-start: 1;
-    font-size: var(--text-xl);
-    color: var(--gray-0);
-  }
-
-  .content {
-    grid-column: 2 / 4;
-  }
-
-  .content :global(a) {
-    text-decoration: 1px solid underline transparent;
-    text-underline-offset: 0.25em;
-    transition: text-decoration-color var(--theme-transition);
-  }
-
-  .content :global(a:hover),
-  .content :global(a:focus) {
-    text-decoration-color: currentColor;
+    .link {
+      width: fit-content;
+      margin: 1rem auto;
+    }
   }
 
   @media (min-width: 50em) {
-    .about {
-      display: grid;
-      grid-template-columns: 1fr 60% 1fr;
-    }
-
-    .about > :global(:first-child) {
-      grid-column-start: 2;
-    }
-
-    section {
-      display: contents;
-      font-size: var(--text-lg);
+    .hero {
+      flex-direction: row;
+      gap: 6rem;
     }
   }
 </style>
