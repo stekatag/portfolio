@@ -24,9 +24,11 @@ const { href } = Astro.props;
     background: var(--gradient-accent-orange);
     box-shadow: var(--shadow-md);
     white-space: nowrap;
+    width: fit-content;
+    margin: 0 auto;
   }
 
-  @media (min-width: 20em) {
+  @media (min-width: 32em) {
     a {
       font-size: var(--text-lg);
     }
