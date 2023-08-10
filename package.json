@@ -12,9 +12,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.9.7"
+    "astro": "^2.10.5"
   },
   "devDependencies": {
-    "sass": "^1.64.2"
+    "@vite-pwa/astro": "^0.1.1",
+    "sass": "^1.65.1"
   }
 }
