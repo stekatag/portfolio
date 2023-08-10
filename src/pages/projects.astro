@@ -45,14 +45,19 @@ const repos = await pinnedRepos.json();
         {repos.map((repo: PinnedRepos) => <RepoCard {...repo} />)}
       </div>
 
-      <Link
-        class="link"
-        href="https://github.com/stekatag"
-        style="rounded"
-        external
-      >
-        <Icon icon="code" size="1.33em" /> See All Projects
-      </Link>
+      <div class="links">
+        <Link
+          class="link"
+          href="https://github.com/stekatag"
+          style="rounded"
+          external
+        >
+          <Icon icon="code" size="1.33em" /> See All Projects
+        </Link>
+        <Link class="link" href="/contact" style="roundedInverted">
+          <Icon icon="readCV" size="1.33em" /> See Resume
+        </Link>
+      </div>
     </main>
   </div>
 </BaseLayout>
@@ -78,8 +83,15 @@ const repos = await pinnedRepos.json();
     gap: 2rem;
   }
 
-  .link {
-    align-self: center;
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .link {
+      width: 100%;
+      justify-content: center;
+    }
   }
 
   @media (min-width: 50em) {
@@ -90,6 +102,17 @@ const repos = await pinnedRepos.json();
 
     .repos {
       grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    }
+
+    .links {
+      margin-top: 0.5rem;
+      flex-direction: row;
+      justify-content: center;
+      gap: 0.8rem;
+
+      .link {
+        width: auto;
+      }
     }
   }
 </style>
