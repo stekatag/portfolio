@@ -8,7 +8,7 @@
 
 This is a portfolio website built using [Astro](https://astro.build/), a static site generator that delivers lightning-fast performance and embraces the JAMstack philosophy. The blog is built using the Astro starter kit
 
-## [Live Demo](https://stekatag-portfolio.netlify.app/)
+## [Live Demo](https://sgogov.dev/)
 
 ![portfolio-demo-img](public/demo-img.jpg)
 
