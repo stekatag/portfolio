@@ -13,11 +13,32 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
 ---
 
 <html lang="en">
   <head>
     <MainHead title={title} description={description} />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1HGX0R9YB"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        // @ts-ignore
+        dataLayer.push(arguments);
+      }
+      // @ts-ignore
+      gtag("js", new Date());
+
+      // @ts-ignore
+      gtag("config", "G-B1HGX0R9YB");
+    </script>
   </head>
   <body>
     <div class="stack backgrounds">
@@ -94,8 +115,8 @@ const { title, description } = Astro.props;
         min-height: 100%;
         isolation: isolate;
         background:
-					/*noise*/ url("/assets/backgrounds/noise.png") top
-            center/220px repeat,
+					/*noise*/
+          url("/assets/backgrounds/noise.png") top center/220px repeat,
           /*footer*/ var(--bg-image-footer) bottom
             center/var(--bg-gradient-size) no-repeat,
           /*header1*/ var(--bg-image-main-curves) top
@@ -103,9 +124,12 @@ const { title, description } = Astro.props;
           /*header2*/ var(--bg-image-main) top center/var(--bg-gradient-size)
             no-repeat,
           /*base*/ var(--gray-999);
-        background-blend-mode: /*noise*/ overlay,
-          /*footer*/ var(--bg-blend-mode), /*header1*/ var(--bg-svg-blend-mode),
-          /*header2*/ normal, /*base*/ normal;
+        background-blend-mode: /*noise*/
+          overlay,
+          /*footer*/ var(--bg-blend-mode),
+          /*header1*/ var(--bg-svg-blend-mode),
+          /*header2*/ normal,
+          /*base*/ normal;
       }
       @media (forced-colors: active) {
         /* Deactivate custom backgrounds for high contrast users. */
