@@ -1,0 +1,29 @@
+.alert {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  padding: 1.15rem;
+  background: var(--accent-overlay);
+  border: 2.5px solid var(--accent-dark);
+  box-shadow: var(--shadow-sm);
+  border-radius: 1rem;
+  color: var(--gray-100);
+  text-align: center;
+  font-size: var(--text-md);
+
+  @media only screen and (min-width: 20em) {
+    padding: 1.35rem;
+  }
+
+  @media only screen and (min-width: 50em) {
+    padding: 1.75rem;
+    font-size: var(--text-lg);
+    flex-direction: row;
+    max-width: fit-content;
+  }
+}
