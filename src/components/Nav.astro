@@ -1,5 +1,5 @@
 ---
-import Icon, { Props as IconProps } from "./ui/Icon.astro";
+import Icon, { type Props as IconProps } from "./ui/Icon/Icon.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 
 /** Main menu items */
@@ -290,7 +290,8 @@ const iconLinks: { label: string; href: string; icon: IconProps["icon"] }[] = [
     .link {
       padding: 0.5rem 1rem;
       border-radius: 999rem;
-      transition: color var(--theme-transition),
+      transition:
+        color var(--theme-transition),
         background-color var(--theme-transition);
 
       &.active {

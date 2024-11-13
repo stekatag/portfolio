@@ -1,26 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Link from "../components/ui/link.astro";
-import Icon from "../components/ui/Icon.astro";
+import Link from "../components/ui/Link.astro";
+import Icon from "../components/ui/Icon/Icon.astro";
 import Hero from "../components/Hero.astro";
-import RepoCard from "../components/RepoCard.astro";
-
-type PinnedRepos = {
-  owner: string;
-  repo: string;
-  link: string;
-  description: string;
-  image: string;
-  language: string;
-  languageColor: string;
-  stars: number;
-  forks: number;
-};
-
-const pinnedRepos = await fetch(
-  "https://gh-pinned-repos-tsj7ta5xfhep.deno.dev/?username=stekatag"
-);
-const repos = await pinnedRepos.json();
+import RepoList from "../components/RepoList/RepoList";
 ---
 
 <BaseLayout
@@ -41,9 +24,7 @@ const repos = await pinnedRepos.json();
     </header>
 
     <main class="wrapper stack gap-10">
-      <div class="repos">
-        {repos.map((repo: PinnedRepos) => <RepoCard {...repo} />)}
-      </div>
+      <RepoList client:load />
 
       <div class="links">
         <Link
@@ -77,12 +58,6 @@ const repos = await pinnedRepos.json();
     }
   }
 
-  .repos {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
   .links {
     display: flex;
     flex-direction: column;
@@ -98,10 +73,6 @@ const repos = await pinnedRepos.json();
     .hero {
       flex-direction: row;
       gap: 6rem;
-    }
-
-    .repos {
-      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     }
 
     .links {

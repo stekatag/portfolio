@@ -1,16 +1,17 @@
 ---
-import Icon from "./ui/Icon.astro";
-import Link from "./ui/link.astro";
+import Icon from "./ui/Icon/Icon.astro";
+import Link from "./ui/Link.astro";
 const currentYear = new Date().getFullYear();
 ---
 
 <footer>
   <div class="group">
     <p>
-      Built with <Link class="link" href="https://astro.build/" external>
+      Built with
+      <Link class="link" href="https://astro.build/" external>
         Astro
+        <Icon icon="rocket-launch" size="1.2em" />
       </Link>
-      <Icon icon="rocket-launch" size="1.2em" />
     </p>
     <p>&copy; {currentYear} Stefan Gogov</p>
   </div>

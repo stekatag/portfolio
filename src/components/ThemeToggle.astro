@@ -1,5 +1,5 @@
 ---
-import Icon from "./ui/Icon.astro";
+import Icon from "./ui/Icon/Icon.astro";
 ---
 
 <theme-toggle>
@@ -56,7 +56,8 @@ import Icon from "./ui/Icon.astro";
   @media (prefers-reduced-motion: no-preference) {
     .icon,
     .icon.light::before {
-      transition: transform var(--theme-transition),
+      transition:
+        transform var(--theme-transition),
         color var(--theme-transition);
     }
   }

@@ -1,0 +1,19 @@
+.repos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+@media (min-width: 50em) {
+  .repos {
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  }
+}
