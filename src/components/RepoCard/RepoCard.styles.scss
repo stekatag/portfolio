@@ -1,12 +1,20 @@
 .repo-card {
   display: block;
   text-decoration: none;
-  padding: 1.75rem;
+  padding: 1.15rem;
   background: var(--gradient-subtle);
   border: 2.5px solid var(--accent-regular);
   box-shadow: var(--shadow-sm);
   border-radius: 1rem;
   transition: var(--theme-transition);
+
+  @media only screen and (min-width: 20em) {
+    padding: 1.35rem;
+  }
+
+  @media only screen and (min-width: 50em) {
+    padding: 1.75rem;
+  }
 
   &:hover {
     box-shadow: var(--shadow-md);
@@ -19,13 +27,19 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 0.75rem;
   }
 
   &__title {
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
+
+    @media only screen and (min-width: 30em) {
+      font-size: var(--text-xl);
+    }
   }
 
   &__description {
+    font-size: var(--text-sm);
     margin: 0.8rem 0;
     color: var(--gray-200);
 
@@ -35,6 +49,10 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: var(--max-lines);
+
+    @media only screen and (min-width: 30em) {
+      font-size: var(--text-base);
+    }
 
     @media only screen and (min-width: 50em) {
       min-height: 4.5rem;
@@ -49,12 +67,22 @@
     &-language {
       color: var(--gray-200);
       font-weight: bold;
+      font-size: var(--text-sm);
+
+      @media only screen and (min-width: 30em) {
+        font-size: var(--text-base);
+      }
     }
 
     &-lang-color {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1rem;
+      height: 1rem;
       border-radius: 50%;
+
+      @media only screen and (min-width: 30em) {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
     }
   }
 }
