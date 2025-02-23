@@ -8,7 +8,12 @@ const currentYear = new Date().getFullYear();
   <div class="group">
     <p>
       Built with
-      <Link class="link" href="https://astro.build/" external>
+      <Link
+        class="link"
+        href="https://astro.build/"
+        title="Astro website"
+        external
+      >
         Astro
         <Icon icon="rocket-launch" size="1.2em" />
       </Link>
@@ -16,17 +21,41 @@ const currentYear = new Date().getFullYear();
     <p>&copy; {currentYear} Stefan Gogov</p>
   </div>
   <p class="socials">
-    <Link class="link" href="https://github.com/stekatag" external>Github</Link>
-    <Link class="link" href="https://codingly.netlify.app/" external>Blog</Link>
-    <Link class="link" href="https://sgogov.com/" external>
-      Photography Portfolio
-    </Link>
     <Link
-      class="link"
+      class="link flex-link"
       href="https://www.linkedin.com/in/stefan-gogov/"
+      title="View Stefan's LinkedIn Profile"
       external
     >
-      LinkedIn
+      <Icon icon="linkedin" size="1.2em" />
+      <span>LinkedIn</span>
+    </Link>
+    <Link
+      class="link flex-link"
+      href="https://github.com/stekatag"
+      title="View Stefan's GitHub Profile"
+      external
+    >
+      <Icon icon="github-logo" size="1.2em" />
+      <span>GitHub</span>
+    </Link>
+    <Link
+      class="link flex-link"
+      href="https://codingly.netlify.app/"
+      title="View Stefan's Coding Blog"
+      external
+    >
+      <Icon icon="codeblock" size="1.2em" />
+      <span>Blog</span>
+    </Link>
+    <Link
+      class="link flex-link"
+      href="https://sgogov.com/"
+      title="View Stefan's Photography Portfolio Page"
+      external
+    >
+      <Icon icon="camera" size="1.2em" />
+      <span>Photography Portfolio</span>
     </Link>
   </p>
 </footer>
@@ -43,6 +72,12 @@ const currentYear = new Date().getFullYear();
 
     .link {
       color: var(--gray-400);
+    }
+
+    .flex-link {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
     }
   }
 

@@ -24,7 +24,7 @@ export default function RepoCard({
     <a
       className="repo-card"
       href={link}
-      title="View repo"
+      title={`View ${repo} on GitHub`}
       target="_blank"
       rel="noopener noreferrer"
     >
