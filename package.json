@@ -12,15 +12,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "^4.2.7",
-    "@astrojs/sitemap": "^3.4.0",
-    "@types/react": "^19.1.5",
-    "@types/react-dom": "^19.1.5",
-    "astro": "^5.7.13",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/sitemap": "^3.6.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "astro": "^5.15.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "sass": "^1.89.0"
+    "sass": "^1.93.3"
   }
 }
