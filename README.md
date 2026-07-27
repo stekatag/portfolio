@@ -1,68 +1,37 @@
-# Portfolio Website using Astro Starter Kit
+# Stefan Gogov — Portfolio
 
-[![Astro](https://img.shields.io/badge/built%20with-astro-blueviolet)](https://astro.build/)
-[![License](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/d865a500-5fd3-4be4-a3c1-12a85cc65713/deploy-status)](https://app.netlify.com/sites/stekatag-portfolio/deploys)
+A static Astro portfolio presenting product engineering work across web, mobile, and cloud delivery.
 
-## About the Project
+## Routes
 
-This is a portfolio website built using [Astro](https://astro.build/), a static site generator that delivers lightning-fast performance and embraces the JAMstack philosophy. The blog is built using the Astro starter kit
+- `/` — Overview
+- `/work` — Professional experience
+- `/projects` — Personal projects sourced from pinned GitHub repositories
+- `/connect` — Professional contact details
+- `/bio` — Compact standalone contact card
 
-## [Live Demo](https://sgogov.dev/)
+`/about` redirects to `/work` and `/contact` redirects to `/connect`.
 
-![portfolio-demo-img](public/demo-img.jpg)
+## Development
 
-## Pages
+Use Node.js 22.12+ and pnpm.
 
-- Home
-- About
-- Projects
-- Contact
-
-## How to Contribute
-
-If you'd like to contribute, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your changes.
-3. Make your enhancements or additions.
-4. Submit a pull request, describing the changes you've made.
-
-## Getting Started
-
-To run the project locally, you'll need Node.js and npm installed on your system. Follow these steps to get started:
-
-1. Clone this repository to your local machine.
-2. Install the project dependencies with `npm install`.
-3. Start the development server with `npm run dev.`
-4. Open your browser and visit http://localhost:3000 to see the project in action.
-
-## Project Structure
-
-Inside of your Astro project, you'll find the following directories and files:
-
-```text
-/
-├── public/
-│   └── ...
-├── src/
-│   ├── components/
-│   │   └── ...
-│   ├── layouts/
-│   │   └── ...
-│   └── pages/
-│       └── ...
-└── package.json
+```bash
+pnpm install
+pnpm dev
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Run all required checks before deployment:
 
-Any static assets, like images, can be placed in the `public/` directory. These files will be copied into the final build.
+```bash
+pnpm verify
+```
 
-## Reporting Issues
+The site is deployed as static output. Netlify must use Node.js 22.12 or newer to build Astro 7 successfully.
 
-If you come across any bugs, have suggestions for improvements, or want to request new features, please submit an issue in the GitHub repository. Your feedback is highly appreciated!
+## Project structure
 
-## License
-
-This project is licensed under the General Public License v3.0. See the [LICENSE](LICENSE) file for details.
+- `src/config/site.ts` — site metadata, routes, destinations, navigation, and integration endpoints
+- `src/data/portfolio.ts` — profile, experience, and capability content
+- `src/components` — Astro workspace components and the React-backed GitHub repository list
+- `src/styles` — design tokens, base styles, utilities, and workspace styles

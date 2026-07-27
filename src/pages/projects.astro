@@ -1,8 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Link from "../components/ui/link.astro";
+import ActionLink from "../components/ui/ActionLink.astro";
+import TextLink from "../components/ui/TextLink.astro";
 import Icon from "../components/ui/Icon/Icon.astro";
 import RepoList from "../components/RepoList/RepoList";
+import WorkspacePageHeader from "../components/WorkspacePageHeader.astro";
+import { destinations, routes } from "../config/site";
 ---
 
 <BaseLayout
@@ -10,24 +13,21 @@ import RepoList from "../components/RepoList/RepoList";
   description="Personal products and experiments built by Stefan Gogov before professional experience."
 >
   <main class="workspace-page projects-page">
-    <header class="workspace-page-header">
-      <p class="workspace-kicker">Personal projects</p>
-      <h1>Personal projects and experiments</h1>
-      <p>
-        A live view of pinned GitHub repositories: personal projects that
-        shaped my product thinking and engineering foundation before professional work.
-      </p>
-    </header>
+    <WorkspacePageHeader
+      kicker="Personal projects"
+      title="Personal projects and experiments"
+      description="A live view of pinned GitHub repositories: personal projects that shaped my product thinking and engineering foundation before professional work."
+    />
     <section class="workspace-section projects-records" aria-labelledby="build-records-heading">
       <div class="workspace-section-heading workspace-section-heading--row">
         <div><p class="workspace-kicker">GitHub-pinned builds</p><h2 id="build-records-heading">Build records</h2></div>
-        <a class="workspace-text-link" href="https://github.com/stekatag" target="_blank" rel="noopener noreferrer">Open GitHub <Icon icon="github-logo" size="1em" /></a>
+        <TextLink class="workspace-text-link" href={destinations.github.href} external={destinations.github.external} title={destinations.github.title}>Open GitHub <Icon icon="github-logo" size="1em" /></TextLink>
       </div>
       <RepoList client:load />
     </section>
     <nav class="workspace-actions" aria-label="Personal project actions">
-      <Link href="https://github.com/stekatag" style="rounded" external title="Open Stefan's GitHub"><Icon icon="github-logo" size="1.2em" /> View GitHub</Link>
-      <Link href="/connect" style="roundedInverted" title="Connect with Stefan"><Icon icon="message" size="1.2em" /> Send a message</Link>
+      <ActionLink href={destinations.github.href} external={destinations.github.external} title={destinations.github.title}><Icon icon="github-logo" size="1.2em" /> View GitHub</ActionLink>
+      <ActionLink href={routes.connect} variant="outline" title={destinations.email.title}><Icon icon="message" size="1.2em" /> {destinations.email.label}</ActionLink>
     </nav>
   </main>
 </BaseLayout>

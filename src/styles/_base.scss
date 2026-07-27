@@ -1,0 +1,7 @@
+html, body { height: 100%; }
+body { background-color: var(--gray-999); color: var(--gray-200); font-family: var(--font-body); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+*, *::after, *::before { box-sizing: border-box; margin: 0; }
+img { max-width: 100%; height: auto; }
+a { color: var(--link-color); }
+h1, h2, h3, h4, h5 { color: var(--gray-100); font-family: var(--font-brand); font-weight: 600; line-height: 1.1; }
+h1 { font-size: var(--text-5xl); } h2 { font-size: var(--text-4xl); } h3 { font-size: var(--text-3xl); } h4 { font-size: var(--text-2xl); } h5 { font-size: var(--text-xl); }

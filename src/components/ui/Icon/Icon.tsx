@@ -1,7 +1,7 @@
-import { iconPaths } from "./IconPaths";
+import { iconPaths, type IconName } from "./IconPaths";
 
 type IconProps = {
-  icon: keyof typeof iconPaths;
+  icon: IconName;
   color?: string;
   gradient?: boolean;
   size?: string;

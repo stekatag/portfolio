@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  kicker?: string;
+}
+
+const { title, description, kicker } = Astro.props;
+---
+
+<header class="workspace-page-header">
+  {kicker && <p class="workspace-kicker">{kicker}</p>}
+  <h1>{title}</h1>
+  {description && <p>{description}</p>}
+  <slot />
+</header>

@@ -1,5 +1,6 @@
 ---
 import "../styles/global.scss";
+import { site } from "../config/site";
 
 interface Props {
   title?: string | undefined;
@@ -7,7 +8,7 @@ interface Props {
   canonical?: string | undefined;
 }
 
-const { title = "Stefan Gogov | Portfolio", description = "The portfolio of Stefan Gogov", canonical } = Astro.props;
+const { title = site.defaultTitle, description = site.defaultDescription, canonical } = Astro.props;
 ---
 
 <meta charset="UTF-8" />

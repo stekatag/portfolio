@@ -1,8 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/ui/Icon/Icon.astro";
-import Link from "../components/ui/link.astro";
-import { cvUrl, deliveryAreas, experience, profile } from "../data/portfolio";
+import ActionLink from "../components/ui/ActionLink.astro";
+import TextLink from "../components/ui/TextLink.astro";
+import { deliveryAreas, experience, profile } from "../data/portfolio";
+import { destinations, routes } from "../config/site";
 
 const currentWork = experience[0];
 ---
@@ -15,8 +17,8 @@ const currentWork = experience[0];
         <h1>I build and ship products across the stack</h1>
         <p>{profile.overview}</p>
         <nav class="workspace-actions" aria-label="Overview actions">
-          <Link href={cvUrl} style="rounded" external title="View CV"><Icon icon="readCV" size="1.2em" /> View CV</Link>
-          <Link href="/connect" style="roundedInverted" title="Connect with Stefan"><Icon icon="message" size="1.2em" /> Send a message</Link>
+          <ActionLink href={destinations.cv.href} external={destinations.cv.external} title={destinations.cv.title}><Icon icon="readCV" size="1.2em" /> {destinations.cv.label}</ActionLink>
+          <ActionLink href={routes.connect} variant="outline" title={destinations.email.title}><Icon icon="message" size="1.2em" /> {destinations.email.label}</ActionLink>
         </nav>
       </div>
       <img src="/assets/hero-img.webp" alt="Headshot of Stefan Gogov" width="480" height="620" />
@@ -28,7 +30,7 @@ const currentWork = experience[0];
         <h2>{currentWork.role}</h2>
         <p class="workspace-panel__context">{currentWork.context}</p>
         <p>{currentWork.summary}</p>
-        <Link href="/work" title="View professional experience">View experience <Icon icon="terminal-window" size="1em" /></Link>
+        <TextLink href={routes.experience} title="View professional experience">View experience <Icon icon="terminal-window" size="1em" /></TextLink>
       </article>
       <article class="workspace-panel">
         <p class="workspace-kicker">Delivery areas</p>
@@ -40,7 +42,7 @@ const currentWork = experience[0];
         <p class="workspace-kicker">Personal projects</p>
         <h2>Projects and experiments</h2>
         <p>Explore the personal projects that shaped my product and engineering practice before professional experience.</p>
-        <Link href="/projects" title="View personal projects">Browse projects <Icon icon="code" size="1em" /></Link>
+        <TextLink href={routes.projects} title="View personal projects">Browse projects <Icon icon="code" size="1em" /></TextLink>
       </article>
     </section>
   </main>

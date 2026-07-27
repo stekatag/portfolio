@@ -1,0 +1,48 @@
+---
+type Props = {
+  href: string;
+  external?: boolean;
+  class?: string;
+  [key: string]: unknown;
+};
+
+const { href, external = false, class: className = "", ...rest } = Astro.props;
+---
+
+<a
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+  {...rest}
+  class:list={["text-link", className]}
+><slot /></a>
+
+<style>
+  .text-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: fit-content;
+    color: var(--accent-dark);
+    font-family: var(--font-brand);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .text-link::after {
+    position: absolute;
+    right: 0;
+    bottom: -0.18rem;
+    left: 0;
+    height: 1px;
+    content: "";
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--theme-transition);
+  }
+
+  .text-link:hover::after,
+  .text-link:focus-visible::after { transform: scaleX(1); }
+</style>

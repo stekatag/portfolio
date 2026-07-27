@@ -16,6 +16,7 @@ interface Props {
 
 const { title, description, chrome, showChrome } = Astro.props;
 const resolvedChrome = chrome ?? (showChrome === false ? "none" : "workspace");
+const analyticsId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 
 declare global {
   interface Window {
@@ -27,21 +28,27 @@ declare global {
 <html lang="en">
   <head>
     <MainHead title={title} description={description} canonical={Astro.url.href} />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1HGX0R9YB"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        // @ts-ignore
-        dataLayer.push(arguments);
-      }
-      // @ts-ignore
-      gtag("js", new Date());
+    {
+      analyticsId && (
+        <>
+          <!-- Google tag (gtag.js) -->
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}
+          ></script>
+          <script is:inline define:vars={{ analyticsId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              // @ts-ignore
+              dataLayer.push(arguments);
+            }
+            // @ts-ignore
+            gtag("js", new Date());
 
-      // @ts-ignore
-      gtag("config", "G-B1HGX0R9YB");
-    </script>
+            // @ts-ignore
+            gtag("config", analyticsId);
+          </script>
+        </>
+      )
+    }
   </head>
   <body>
     <div class:list={["backgrounds", { "workspace-shell": resolvedChrome === "workspace" }]}>

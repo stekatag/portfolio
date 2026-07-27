@@ -1,0 +1,63 @@
+---
+type Props = {
+  href: string;
+  external?: boolean;
+  variant?: "solid" | "outline";
+  block?: boolean;
+  class?: string;
+  [key: string]: unknown;
+};
+
+const { href, external = false, variant = "solid", block = false, class: className = "", ...rest } = Astro.props;
+---
+
+<a
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+  {...rest}
+  class:list={["action-link", `action-link--${variant}`, block && "action-link--block", className]}
+>
+  <slot />
+</a>
+
+<style>
+  .action-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--accent-light) 38%, var(--accent-regular));
+    border-radius: var(--radius-pill);
+    color: var(--accent-text-over);
+    font-size: var(--text-md);
+    line-height: 1.35;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background var(--theme-transition), border-color var(--theme-transition), box-shadow var(--theme-transition), color var(--theme-transition);
+  }
+
+  .action-link--solid {
+    background: var(--control-gradient);
+    box-shadow: var(--control-shadow);
+  }
+
+  .action-link--outline {
+    border-color: color-mix(in srgb, var(--accent-regular) 78%, var(--accent-dark));
+    background: var(--control-outline-background);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 20%, transparent);
+    color: var(--accent-dark);
+  }
+
+  .action-link--block { display: flex; width: 100%; }
+
+  .action-link:hover,
+  .action-link:focus-visible {
+    border-color: var(--accent-light);
+    background: var(--control-gradient-hover);
+    box-shadow: var(--control-shadow-hover);
+    color: var(--accent-text-over);
+  }
+</style>

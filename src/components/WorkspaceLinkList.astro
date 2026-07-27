@@ -1,0 +1,31 @@
+---
+import Icon from "./ui/Icon/Icon.astro";
+import type { WorkspaceNavigationItem, Destination } from "../config/site";
+import type { IconName } from "./ui/Icon/IconPaths";
+
+interface Props {
+  items: (WorkspaceNavigationItem | (Destination & { icon: IconName }))[];
+  currentPath?: string;
+  quickLinks?: boolean;
+}
+
+const { items, currentPath, quickLinks = false } = Astro.props;
+const isActive = (href: string) => href === "/" ? currentPath === "/" : currentPath?.startsWith(href);
+---
+
+<div class={quickLinks ? "workspace-quick-link-list" : "workspace-nav-list"}>
+  {
+    items.map((item) => (
+      <a
+        href={item.href}
+        title={item.title}
+        target={"external" in item && item.external ? "_blank" : undefined}
+        rel={"external" in item && item.external ? "noopener noreferrer" : undefined}
+        aria-current={!quickLinks && isActive(item.href) ? "page" : undefined}
+      >
+        <Icon icon={item.icon} size="1.1em" />
+        <span>{item.label}</span>
+      </a>
+    ))
+  }
+</div>

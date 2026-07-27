@@ -9,7 +9,10 @@
     "build": "astro build",
     "deploy": "npm run build && firebase deploy",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "test": "vitest run",
+    "verify": "pnpm check && pnpm test && pnpm build"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.1",
@@ -21,6 +24,9 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "sass": "^1.93.3"
+    "@astrojs/check": "^0.9.10",
+    "sass": "^1.93.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   }
 }

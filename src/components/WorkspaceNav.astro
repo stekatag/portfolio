@@ -1,7 +1,9 @@
 ---
-import Icon, { type Props as IconProps } from "./ui/Icon/Icon.astro";
+import Icon from "./ui/Icon/Icon.astro";
 import ThemeToggle from "./ThemeToggle.astro";
-import { cvUrl, profile } from "../data/portfolio";
+import WorkspaceLinkList from "./WorkspaceLinkList.astro";
+import { profile } from "../data/portfolio";
+import { workspaceNavigation, workspaceQuickLinks } from "../config/site";
 
 interface Props {
   currentPath: string;
@@ -9,22 +11,6 @@ interface Props {
 
 const { currentPath } = Astro.props;
 
-const navLinks: { label: string; href: string; icon: IconProps["icon"] }[] = [
-  { label: "Overview", href: "/", icon: "layout" },
-  { label: "Experience", href: "/work", icon: "terminal-window" },
-  { label: "Personal Projects", href: "/projects", icon: "code" },
-  { label: "Connect", href: "/connect", icon: "message" },
-];
-
-const quickLinks: { label: string; href: string; icon: IconProps["icon"]; external?: boolean }[] = [
-  { label: "View CV", href: cvUrl, icon: "readCV", external: true },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/stefan-gogov/", icon: "linkedin", external: true },
-  { label: "GitHub", href: "https://github.com/stekatag", icon: "github-logo", external: true },
-  { label: "Bio", href: "/bio", icon: "handwave" },
-];
-
-const isActive = (href: string) =>
-  href === "/" ? currentPath === "/" : currentPath.startsWith(href);
 ---
 
 <header class="workspace-mobile-header">
@@ -33,37 +19,22 @@ const isActive = (href: string) =>
     <span>Stefan Gogov</span>
   </a>
   <workspace-menu>
-    <button class="workspace-menu-button" aria-expanded="false" aria-controls="workspace-drawer" title="Open navigation">
-      <span class="sr-only">Open workspace navigation</span>
+    <button class="workspace-menu-button" aria-expanded="false" aria-controls="workspace-drawer" title="Open menu">
+      <span class="sr-only">Open menu</span>
       <Icon icon="list" size="1.35em" />
     </button>
-    <aside id="workspace-drawer" class="workspace-drawer" hidden aria-label="Workspace navigation">
+    <button class="workspace-drawer-backdrop" type="button" hidden aria-label="Close menu"></button>
+    <aside id="workspace-drawer" class="workspace-drawer" hidden aria-label="Menu">
       <div class="workspace-drawer__header">
-        <span>Workspace</span>
+        <span>Menu</span>
         <button class="workspace-drawer__close" type="button" title="Close navigation">
-          <span class="sr-only">Close workspace navigation</span>
+          <span class="sr-only">Close menu</span>
           <Icon icon="x" size="1.35em" />
         </button>
       </div>
-      <nav class="workspace-nav-list" aria-label="Primary navigation">
-        {
-          navLinks.map(({ label, href, icon }) => (
-            <a href={href} title={label} aria-current={isActive(href) ? "page" : undefined}>
-              <Icon icon={icon} size="1.1em" />
-              <span>{label}</span>
-            </a>
-          ))
-        }
-      </nav>
+      <nav aria-label="Primary navigation"><WorkspaceLinkList items={workspaceNavigation} currentPath={currentPath} /></nav>
       <div class="workspace-quick-links">
-        {
-          quickLinks.map(({ label, href, icon, external }) => (
-            <a href={href} title={external ? `Open ${label}` : label} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>
-              <Icon icon={icon} size="1.1em" />
-              <span>{label}</span>
-            </a>
-          ))
-        }
+        <WorkspaceLinkList items={workspaceQuickLinks} quickLinks />
         <ThemeToggle />
       </div>
     </aside>
@@ -77,26 +48,10 @@ const isActive = (href: string) =>
       <small>Software Engineer</small>
     </span>
   </a>
-  <nav class="workspace-nav-list" aria-label="Primary navigation">
-    {
-      navLinks.map(({ label, href, icon }) => (
-        <a href={href} title={label} aria-current={isActive(href) ? "page" : undefined}>
-          <Icon icon={icon} size="1.1em" />
-          <span>{label}</span>
-        </a>
-      ))
-    }
-  </nav>
+  <nav aria-label="Primary navigation"><WorkspaceLinkList items={workspaceNavigation} currentPath={currentPath} /></nav>
   <div class="workspace-sidebar__bottom">
     <div class="workspace-quick-links">
-      {
-        quickLinks.map(({ label, href, icon, external }) => (
-          <a href={href} title={external ? `Open ${label}` : label} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>
-            <Icon icon={icon} size="1.05em" />
-            <span>{label}</span>
-          </a>
-        ))
-      }
+      <WorkspaceLinkList items={workspaceQuickLinks} quickLinks />
     </div>
     <div class="workspace-sidebar__theme"><ThemeToggle /></div>
     <p class="workspace-sidebar__credit">© {new Date().getFullYear()} Stefan Gogov</p>
@@ -110,28 +65,35 @@ const isActive = (href: string) =>
       const openButton = this.querySelector<HTMLButtonElement>(".workspace-menu-button")!;
       const drawer = this.querySelector<HTMLElement>(".workspace-drawer")!;
       const closeButton = this.querySelector<HTMLButtonElement>(".workspace-drawer__close")!;
+      const backdrop = this.querySelector<HTMLButtonElement>(".workspace-drawer-backdrop")!;
       let closeTimeout: number | undefined;
       const setOpen = (open: boolean) => {
         openButton.setAttribute("aria-expanded", String(open));
         window.clearTimeout(closeTimeout);
+        document.documentElement.classList.toggle("workspace-menu-open", open);
 
         if (open) {
           drawer.hidden = false;
+          backdrop.hidden = false;
           window.requestAnimationFrame(() => {
             drawer.dataset.open = "true";
+            backdrop.dataset.open = "true";
             drawer.querySelector<HTMLAnchorElement>("a")?.focus();
           });
           return;
         }
 
         drawer.removeAttribute("data-open");
+        backdrop.removeAttribute("data-open");
         closeTimeout = window.setTimeout(() => {
           drawer.hidden = true;
+          backdrop.hidden = true;
           openButton.focus();
         }, 260);
       };
-      openButton.addEventListener("click", () => setOpen(true));
+      openButton.addEventListener("click", () => setOpen(drawer.dataset.open !== "true"));
       closeButton.addEventListener("click", () => setOpen(false));
+      backdrop.addEventListener("click", () => setOpen(false));
       this.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && !drawer.hidden) setOpen(false);
       });
@@ -143,13 +105,13 @@ const isActive = (href: string) =>
 <style>
   .workspace-sidebar { display: none; }
   .workspace-mobile-header {
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 50;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.25rem;
-    overflow: hidden;
     border-bottom: 1px solid var(--gray-800);
     background: var(--gray-999);
     box-shadow: 0 1px 0 color-mix(in srgb, var(--gray-100) 7%, transparent);
@@ -183,11 +145,28 @@ const isActive = (href: string) =>
     cursor: pointer;
   }
   .workspace-menu-button:hover, .workspace-drawer__close:hover { border-color: color-mix(in srgb, var(--accent-regular) 62%, var(--gray-800)); color: var(--accent-light); }
+  .workspace-drawer-backdrop {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    border: 0;
+    background: rgb(9 11 17 / 0.56);
+    cursor: default;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-out, visibility 0s linear 0.24s;
+    visibility: hidden;
+  }
+  .workspace-drawer-backdrop[hidden] { display: block; }
+  .workspace-drawer-backdrop[data-open="true"] { opacity: 1; pointer-events: auto; transition: opacity 0.2s ease-out; visibility: visible; }
   .workspace-drawer {
     position: fixed;
-    z-index: 60;
-    inset: 0 0 0 auto;
-    width: min(21rem, 88vw);
+    z-index: 1001;
+    top: 0;
+    right: 0;
+    width: min(19rem, 82vw);
+    height: 100vh;
+    height: 100dvh;
     padding: 1.25rem;
     overflow: hidden;
     border: 1px solid var(--gray-800);
@@ -205,10 +184,10 @@ const isActive = (href: string) =>
   .workspace-drawer[hidden] { display: block; }
   .workspace-drawer[data-open="true"] { opacity: 1; pointer-events: auto; transform: translateX(0); transition: transform 0.24s ease-out, opacity 0.2s ease-out; visibility: visible; }
   .workspace-drawer__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; color: var(--gray-100); font-family: var(--font-brand); font-weight: 600; }
-  .workspace-nav-list, .workspace-quick-links { display: grid; gap: .35rem; }
-  .workspace-nav-list a, .workspace-quick-links a { display: flex; align-items: center; gap: .7rem; padding: .7rem .8rem; border: 1px solid transparent; border-radius: .7rem; color: var(--gray-300); text-decoration: none; }
-  .workspace-nav-list a:hover, .workspace-nav-list a:focus-visible { color: var(--gray-100); border-color: color-mix(in srgb, var(--accent-regular) 34%, var(--gray-800)); background: color-mix(in srgb, var(--accent-regular) 10%, var(--gray-999)); }
-  .workspace-nav-list a[aria-current="page"] {
+  :global(.workspace-nav-list), .workspace-quick-links, :global(.workspace-quick-link-list) { display: grid; gap: .35rem; }
+  :global(.workspace-nav-list a), :global(.workspace-quick-links a) { display: flex; align-items: center; gap: .7rem; padding: .7rem .8rem; border: 1px solid transparent; border-radius: .7rem; color: var(--gray-300); text-decoration: none; }
+  :global(.workspace-nav-list a:hover), :global(.workspace-nav-list a:focus-visible) { color: var(--gray-100); border-color: color-mix(in srgb, var(--accent-regular) 34%, var(--gray-800)); background: color-mix(in srgb, var(--accent-regular) 10%, var(--gray-999)); }
+  :global(.workspace-nav-list a[aria-current="page"]) {
     color: var(--accent-text-over);
     border-color: color-mix(in srgb, var(--accent-light) 32%, var(--accent-regular));
     background: linear-gradient(
@@ -220,23 +199,28 @@ const isActive = (href: string) =>
     box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 16%, transparent);
   }
   .workspace-quick-links { margin-top: 1.5rem; }
-  .workspace-quick-links a:hover, .workspace-quick-links a:focus-visible {
-    color: var(--accent-text-over);
-    border-color: color-mix(in srgb, var(--accent-light) 32%, var(--accent-regular));
-    background: linear-gradient(
-      115deg,
-      color-mix(in srgb, var(--accent-light) 18%, var(--accent-regular)),
-      var(--accent-regular) 58%,
-      color-mix(in srgb, var(--accent-dark) 16%, var(--accent-regular))
-    );
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 16%, transparent);
+  :global(.workspace-quick-links a:hover), :global(.workspace-quick-links a:focus-visible) {
+    color: var(--gray-100);
+    border-color: color-mix(in srgb, var(--accent-regular) 34%, var(--gray-800));
+    background: color-mix(in srgb, var(--accent-regular) 10%, var(--gray-999));
   }
   @media (prefers-reduced-motion: reduce) {
-    .workspace-drawer { transition: none; }
+    .workspace-drawer, .workspace-drawer-backdrop { transition: none; }
   }
+  :global(html.workspace-menu-open) { overflow: hidden; }
   @media (min-width: 64em) {
     .workspace-mobile-header { display: none; }
     .workspace-sidebar { position: sticky; top: 0; display: flex; flex-direction: column; width: 17.5rem; height: 100vh; padding: 1.5rem 1rem; overflow: hidden; border-right: 1px solid var(--gray-800); background: var(--gray-999); box-shadow: 1px 0 0 color-mix(in srgb, var(--gray-100) 4%, transparent); }
+    :global(.workspace-sidebar .workspace-nav-list a),
+    :global(.workspace-sidebar .workspace-quick-links a) {
+      transition: transform 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out, background-color 150ms ease-out;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      :global(.workspace-sidebar .workspace-nav-list a:hover),
+      :global(.workspace-sidebar .workspace-nav-list a:focus-visible),
+      :global(.workspace-sidebar .workspace-quick-links a:hover),
+      :global(.workspace-sidebar .workspace-quick-links a:focus-visible) { transform: translateX(0.22rem); }
+    }
     .workspace-profile { padding: .5rem; margin-bottom: 1.75rem; }
     .workspace-profile__copy { display: grid; gap: .15rem; }
     .workspace-profile small { color: var(--gray-400); font-family: var(--font-body); font-size: var(--text-sm); font-weight: 400; }

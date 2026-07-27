@@ -1,10 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Link from "../components/ui/link.astro";
+import ActionLink from "../components/ui/ActionLink.astro";
 import Icon from "../components/ui/Icon/Icon.astro";
 import ContactCTA from "../components/ContactCTA.astro";
 import Skills from "../components/Skills.astro";
-import { cvUrl } from "../data/portfolio";
+import WorkspacePageHeader from "../components/WorkspacePageHeader.astro";
+import { destinations } from "../config/site";
 ---
 
 <BaseLayout
@@ -12,15 +13,13 @@ import { cvUrl } from "../data/portfolio";
   description="Get in touch with Stefan Gogov for product engineering and collaboration."
 >
   <main class="workspace-page connect-page">
-    <header class="workspace-page-header">
-      <p class="workspace-kicker">Connect</p>
-      <h1>Let’s start a conversation</h1>
-      <p>
-        For product engineering, collaboration, or a portfolio follow-up, email
-        is the best way to reach me.
-      </p>
-      <Link href={cvUrl} style="rounded" external title="View Stefan's CV"><Icon icon="readCV" size="1.2em" /> View CV</Link>
-    </header>
+    <WorkspacePageHeader
+      kicker="Connect"
+      title="Let’s start a conversation"
+      description="For product engineering, collaboration, or a portfolio follow-up, email is the best way to reach me."
+    >
+      <ActionLink href={destinations.cv.href} external={destinations.cv.external} title={destinations.cv.title}><Icon icon="readCV" size="1.2em" /> {destinations.cv.label}</ActionLink>
+    </WorkspacePageHeader>
     <div class="connect-content">
       <Skills />
       <ContactCTA />

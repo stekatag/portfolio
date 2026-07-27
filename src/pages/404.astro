@@ -1,8 +1,130 @@
 ---
-import Hero from '../components/Hero.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ActionLink from "../components/ui/ActionLink.astro";
+import TextLink from "../components/ui/TextLink.astro";
+import Icon from "../components/ui/Icon/Icon.astro";
+import { destinations, routes } from "../config/site";
 ---
 
-<BaseLayout title="Not Found" description="404 Error — this page was not found">
-	<Hero title="Page Not Found" tagline="Not found" />
+<BaseLayout title="Page not found | Stefan Gogov" description="The requested portfolio page could not be found.">
+  <main class="workspace-page not-found-page">
+    <section class="not-found-card" aria-labelledby="not-found-title">
+      <div class="not-found-card__content">
+        <div class="not-found-card__icon" aria-hidden="true">
+          <Icon icon="warning-circle" gradient size="3.2rem" />
+        </div>
+        <p class="workspace-kicker">Error 404</p>
+        <h1 id="not-found-title">This page took a wrong turn.</h1>
+        <p class="not-found-card__description">
+          The link may be outdated, or the page may have moved. Return to the overview or continue exploring the portfolio.
+        </p>
+        <nav class="not-found-card__actions" aria-label="Page recovery actions">
+          <ActionLink href={routes.overview} title="Return to the portfolio overview">
+            <Icon icon="terminal-window" size="1.2em" /> Return home
+          </ActionLink>
+          <ActionLink href={routes.connect} variant="outline" title={destinations.email.title}>
+            <Icon icon="message" size="1.2em" /> Send a message
+          </ActionLink>
+        </nav>
+        <div class="not-found-card__explore" aria-label="Explore portfolio pages">
+          <span>Explore instead</span>
+          <TextLink href={routes.experience} title="View professional experience">Experience <Icon icon="terminal-window" size="1em" /></TextLink>
+          <TextLink href={routes.projects} title="View personal projects">Personal projects <Icon icon="code" size="1em" /></TextLink>
+        </div>
+      </div>
+    </section>
+  </main>
 </BaseLayout>
+
+<style lang="scss">
+  .not-found-page {
+    display: grid;
+    min-height: min(42rem, calc(100vh - 4.5rem));
+    place-items: center;
+  }
+
+  .not-found-card {
+    position: relative;
+    width: min(100%, 52rem);
+    overflow: hidden;
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-background);
+    box-shadow: var(--surface-shadow);
+    text-align: center;
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background:
+        radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent-regular) 12%, transparent), transparent 48%),
+        linear-gradient(145deg, color-mix(in srgb, var(--gray-999) 13%, transparent), transparent 50%);
+    }
+
+    &__content {
+      position: relative;
+      max-width: 42rem;
+      margin-inline: auto;
+      padding: clamp(2.5rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 4rem);
+    }
+
+    &__icon {
+      display: grid;
+      width: 5.75rem;
+      height: 5.75rem;
+      margin: 0 auto 1.5rem;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, var(--accent-regular) 34%, var(--surface-border));
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-regular) 8%, var(--gray-999));
+      box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 18%, transparent), var(--shadow-sm);
+    }
+
+    h1 {
+      max-width: 15ch;
+      margin: .45rem auto 1rem;
+      color: var(--gray-100);
+      font-size: clamp(2rem, 4.2vw, 3.1rem);
+      line-height: 1.05;
+    }
+
+    &__description {
+      max-width: 40rem;
+      margin-inline: auto;
+      color: var(--gray-300);
+      font-size: var(--text-md);
+      line-height: 1.65;
+    }
+
+    &__actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .75rem;
+      margin-top: 2rem;
+    }
+
+    &__explore {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: .7rem 1rem;
+      margin-top: 2rem;
+      color: var(--gray-400);
+      font-size: var(--text-sm);
+
+      > span { color: var(--gray-400); }
+    }
+  }
+
+  @media (max-width: 34em) {
+    .not-found-card__actions {
+      display: grid;
+
+      :global(.action-link) { width: 100%; }
+    }
+  }
+</style>

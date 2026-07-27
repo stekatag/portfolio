@@ -1,9 +1,5 @@
-import type { Props as IconProps } from "../components/ui/Icon/Icon.astro";
-
-export const cvUrl =
-  "https://app.enhancv.com/share/5e64dcd1/?utm_medium=growth&utm_campaign=share-resume&utm_source=dynamic";
-
-export const contactEmail = "stefangogov@proton.me";
+import type { IconName } from "../components/ui/Icon/IconPaths";
+import type { DestinationKey } from "../config/site";
 
 export const profile = {
   name: "Stefan Gogov",
@@ -19,8 +15,7 @@ export type Contribution = {
 };
 
 export type ExperienceLink = {
-  label: string;
-  href: string;
+  destination: DestinationKey;
 };
 
 export type ExperienceItem = {
@@ -62,8 +57,8 @@ export const experience: ExperienceItem[] = [
     ],
     tools: ["Laravel", "Vue.js", "React Native", "AWS", "Laravel Cloud"],
     links: [
-      { label: "Inverso.bg", href: "https://www.inverso.bg/" },
-      { label: "Voidweb", href: "https://www.voidweb.eu/" },
+      { destination: "inverso" },
+      { destination: "voidweb" },
     ],
   },
   {
@@ -84,7 +79,7 @@ export const experience: ExperienceItem[] = [
       },
     ],
     tools: ["PHP", "Laravel", "OpenAI", "REST APIs"],
-    links: [{ label: "Voidweb", href: "https://www.voidweb.eu/" }],
+    links: [{ destination: "voidweb" }],
   },
   {
     status: "Student practice",
@@ -108,7 +103,10 @@ export const experience: ExperienceItem[] = [
       },
     ],
     tools: ["React", "Redux", "API integration", "Testing"],
-    links: [{ label: "ScaleFocus", href: "https://www.scalefocus.com/" }],
+    links: [
+      { destination: "scaleFocusApp" },
+      { destination: "scaleFocus" },
+    ],
   },
 ];
 
@@ -116,7 +114,7 @@ export type Capability = {
   title: string;
   detail: string;
   tools: string[];
-  icon: IconProps["icon"];
+  icon: IconName;
 };
 
 export const capabilities: Capability[] = [

@@ -1,32 +1,14 @@
 ---
-import CallToAction from "./CallToAction.astro";
+import ActionLink from "./ui/ActionLink.astro";
 import Icon from "./ui/Icon/Icon.astro";
 import type { Props as IconProps } from "./ui/Icon/Icon.astro";
+import { destinations } from "../config/site";
 
-const iconLinks: {
-  label: string;
-  href: string;
-  icon: IconProps["icon"];
-  external?: boolean;
-}[] = [
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/stefan-gogov/",
-    icon: "linkedin",
-    external: true,
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/stekatag",
-    icon: "github-logo",
-    external: true,
-  },
-  {
-    label: "Bio",
-    href: "/bio",
-    icon: "handwave",
-  },
-];
+const iconLinks = [
+  { ...destinations.linkedin, icon: "linkedin" },
+  { ...destinations.github, icon: "github-logo" },
+  { ...destinations.bio, icon: "handwave" },
+] satisfies (typeof destinations[keyof typeof destinations] & { icon: IconProps["icon"] })[];
 ---
 
 <aside>
@@ -38,20 +20,20 @@ const iconLinks: {
     </p>
   </div>
   <div>
-    <CallToAction href="mailto:stefangogov@proton.me">
-      Send a message
+    <ActionLink class="contact-cta__action" href={destinations.email.href} title={destinations.email.title}>
+      {destinations.email.label}
       <Icon icon="message" size="1.2em" />
-    </CallToAction>
+    </ActionLink>
     <span>OR</span>
     <div class="socials">
       {
-        iconLinks.map(({ href, icon, label, external }) => (
+        iconLinks.map(({ href, icon, title, external }) => (
           <a
             href={href}
             class="social"
             target={external ? "_blank" : undefined}
             rel={external ? "noopener noreferrer" : undefined}
-            title={label}
+            title={title}
           >
             <Icon icon={icon} />
           </a>
@@ -113,6 +95,19 @@ const iconLinks: {
     }
   }
 
+  :global(.contact-cta__action) {
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 0.56em 2em;
+    gap: 0.8em;
+    line-height: 1.1;
+  }
+
+  @media (min-width: 32em) {
+    :global(.contact-cta__action) { font-size: var(--text-lg); }
+  }
+
   @media (min-width: 50em) {
     aside {
       padding: 5.5rem;
@@ -128,5 +123,6 @@ const iconLinks: {
         font-size: var(--text-3xl);
       }
     }
+
   }
 </style>

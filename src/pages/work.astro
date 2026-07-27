@@ -1,8 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/ui/Icon/Icon.astro";
-import Link from "../components/ui/link.astro";
-import { capabilities, cvUrl, experience } from "../data/portfolio";
+import ActionLink from "../components/ui/ActionLink.astro";
+import TextLink from "../components/ui/TextLink.astro";
+import WorkspacePageHeader from "../components/WorkspacePageHeader.astro";
+import { capabilities, experience } from "../data/portfolio";
+import { destinations, routes } from "../config/site";
+
+const experienceWithLinks = experience.map((item) => ({
+  ...item,
+  links: item.links.map(({ destination }) => destinations[destination]),
+}));
 ---
 
 <BaseLayout
@@ -10,14 +18,11 @@ import { capabilities, cvUrl, experience } from "../data/portfolio";
   description="Professional delivery work across web, mobile, and cloud systems."
 >
   <main class="workspace-page work-page">
-    <header class="workspace-page-header">
-      <p class="workspace-kicker">Career</p>
-      <h1>Product delivery experience</h1>
-      <p>
-        Building and shipping products across the stack, from day-to-day product
-        engineering to mobile delivery and cloud operations.
-      </p>
-    </header>
+    <WorkspacePageHeader
+      kicker="Career"
+      title="Product delivery experience"
+      description="Building and shipping products across the stack, from day-to-day product engineering to mobile delivery and cloud operations."
+    />
 
     <section class="workspace-section" aria-labelledby="experience-heading">
       <div class="workspace-section-heading">
@@ -26,7 +31,7 @@ import { capabilities, cvUrl, experience } from "../data/portfolio";
       </div>
       <div class="work-board">
         {
-          experience.map(({ status, dates, role, context, summary, contributions, tools, links }) => (
+          experienceWithLinks.map(({ status, dates, role, context, summary, contributions, tools, links }) => (
             <section class="work-lane" aria-labelledby={status.toLowerCase().replaceAll(" ", "-")}>
               <header class="work-lane__header">
                 <span class:list={["status-dot", { "status-dot--current": status === "Current work" }]}></span>
@@ -50,10 +55,10 @@ import { capabilities, cvUrl, experience } from "../data/portfolio";
                   </div>
                   <nav class="work-card__links" aria-label={`${role} related links`}>
                     {
-                      links.map(({ label, href }) => (
-                        <a href={href} target="_blank" rel="noopener noreferrer" title={`Open ${label}`}>
+                      links.map(({ label, href, title, external }) => (
+                        <TextLink href={href} external={external} title={title}>
                           <span>{label}</span><Icon icon="arrow-square-out" size="1em" />
-                        </a>
+                        </TextLink>
                       ))
                     }
                   </nav>
@@ -87,7 +92,7 @@ import { capabilities, cvUrl, experience } from "../data/portfolio";
     <section class="workspace-support" aria-label="Education and personal note">
       <div>
         <p class="workspace-kicker">Education</p>
-        <h2>BSc in Software Technologies and Design</h2>
+        <h2>Bachelor's degree in Software Technologies and Design</h2>
         <p>Completed 2026 · Plovdiv University “Paisii Hilendarski”</p>
       </div>
       <p class="workspace-note">
@@ -97,8 +102,8 @@ import { capabilities, cvUrl, experience } from "../data/portfolio";
     </section>
 
     <nav class="workspace-actions" aria-label="Experience actions">
-      <Link href={cvUrl} style="rounded" external title="View CV"><Icon icon="readCV" size="1.2em" /> View CV</Link>
-      <Link href="/connect" style="roundedInverted" title="Connect with Stefan"><Icon icon="message" size="1.2em" /> Send a message</Link>
+      <ActionLink href={destinations.cv.href} external={destinations.cv.external} title={destinations.cv.title}><Icon icon="readCV" size="1.2em" /> {destinations.cv.label}</ActionLink>
+      <ActionLink href={routes.connect} variant="outline" title={destinations.email.title}><Icon icon="message" size="1.2em" /> {destinations.email.label}</ActionLink>
     </nav>
   </main>
 </BaseLayout>
