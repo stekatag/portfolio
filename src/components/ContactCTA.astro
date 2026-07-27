@@ -20,10 +20,12 @@ const iconLinks = [
     </p>
   </div>
   <div>
-    <ActionLink class="contact-cta__action" href={destinations.email.href} title={destinations.email.title}>
-      {destinations.email.label}
-      <Icon icon="message" size="1.2em" />
-    </ActionLink>
+    <div class="contact-cta__action-wrap">
+      <ActionLink href={destinations.email.href} title={destinations.email.title}>
+        {destinations.email.label}
+        <Icon icon="message" size="1.2em" />
+      </ActionLink>
+    </div>
     <span>OR</span>
     <div class="socials">
       {
@@ -95,17 +97,9 @@ const iconLinks = [
     }
   }
 
-  :global(.contact-cta__action) {
-    display: flex;
-    width: fit-content;
-    margin: 0 auto;
-    padding: 0.56em 2em;
-    gap: 0.8em;
-    line-height: 1.1;
-  }
-
-  @media (min-width: 32em) {
-    :global(.contact-cta__action) { font-size: var(--text-lg); }
+  .contact-cta__action-wrap {
+    display: grid;
+    justify-items: center;
   }
 
   @media (min-width: 50em) {
@@ -122,6 +116,13 @@ const iconLinks = [
       &__heading {
         font-size: var(--text-3xl);
       }
+    }
+
+    .contact-cta__action-wrap :global(.action-link) {
+      padding: 0.56em 2em;
+      gap: 0.8em;
+      font-size: var(--text-lg);
+      line-height: 1.1;
     }
 
   }
