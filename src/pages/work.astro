@@ -1,0 +1,104 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/ui/Icon/Icon.astro";
+import Link from "../components/ui/link.astro";
+import { capabilities, cvUrl, experience } from "../data/portfolio";
+---
+
+<BaseLayout
+  title="Experience | Stefan Gogov"
+  description="Professional delivery work across web, mobile, and cloud systems."
+>
+  <main class="workspace-page work-page">
+    <header class="workspace-page-header">
+      <p class="workspace-kicker">Career</p>
+      <h1>Product delivery experience</h1>
+      <p>
+        Building and shipping products across the stack, from day-to-day product
+        engineering to mobile delivery and cloud operations.
+      </p>
+    </header>
+
+    <section class="workspace-section" aria-labelledby="experience-heading">
+      <div class="workspace-section-heading">
+        <p class="workspace-kicker">Timeline</p>
+        <h2 id="experience-heading">From foundation to ownership</h2>
+      </div>
+      <div class="work-board">
+        {
+          experience.map(({ status, dates, role, context, summary, contributions, tools, links }) => (
+            <section class="work-lane" aria-labelledby={status.toLowerCase().replaceAll(" ", "-")}>
+              <header class="work-lane__header">
+                <span class:list={["status-dot", { "status-dot--current": status === "Current work" }]}></span>
+                <h3 id={status.toLowerCase().replaceAll(" ", "-")}>{status}</h3>
+              </header>
+              <article class="work-card">
+                <div class="work-card__meta">
+                  <p class="workspace-kicker">{dates}</p>
+                  <h4>{role}</h4>
+                  <p>{context}</p>
+                </div>
+                <div class="work-card__body">
+                  <p>{summary}</p>
+                  <ul class="work-contributions">
+                    {contributions.map(({ title, detail }) => (
+                      <li><strong>{title}</strong><span>{detail}</span></li>
+                    ))}
+                  </ul>
+                  <div class="tag-list" aria-label={`${role} technologies`}>
+                    {tools.map((tool) => <span>{tool}</span>)}
+                  </div>
+                  <nav class="work-card__links" aria-label={`${role} related links`}>
+                    {
+                      links.map(({ label, href }) => (
+                        <a href={href} target="_blank" rel="noopener noreferrer" title={`Open ${label}`}>
+                          <span>{label}</span><Icon icon="arrow-square-out" size="1em" />
+                        </a>
+                      ))
+                    }
+                  </nav>
+                </div>
+              </article>
+            </section>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="workspace-section" aria-labelledby="toolbox-heading">
+      <div class="workspace-section-heading">
+        <p class="workspace-kicker">Capabilities</p>
+        <h2 id="toolbox-heading">Delivery toolbox</h2>
+      </div>
+      <div class="capability-grid">
+        {
+          capabilities.map(({ title, detail, tools, icon }) => (
+            <article class="capability-card">
+              <Icon icon={icon} size="1.6em" gradient />
+              <h3>{title}</h3>
+              <p>{detail}</p>
+              <div class="tag-list">{tools.map((tool) => <span>{tool}</span>)}</div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="workspace-support" aria-label="Education and personal note">
+      <div>
+        <p class="workspace-kicker">Education</p>
+        <h2>BSc in Software Technologies and Design</h2>
+        <p>Completed 2026 · Plovdiv University “Paisii Hilendarski”</p>
+      </div>
+      <p class="workspace-note">
+        Outside work, I enjoy photography and the attention to detail it brings
+        to how I observe and create.
+      </p>
+    </section>
+
+    <nav class="workspace-actions" aria-label="Experience actions">
+      <Link href={cvUrl} style="rounded" external title="View CV"><Icon icon="readCV" size="1.2em" /> View CV</Link>
+      <Link href="/connect" style="roundedInverted" title="Connect with Stefan"><Icon icon="message" size="1.2em" /> Send a message</Link>
+    </nav>
+  </main>
+</BaseLayout>

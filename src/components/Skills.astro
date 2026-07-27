@@ -2,82 +2,91 @@
 import Icon from "./ui/Icon/Icon.astro";
 ---
 
-<section class="box skills">
-  <div class="stack gap-2 lg:gap-4">
+<section class="skills" aria-labelledby="work-heading">
+  <header class="skills__header">
+    <p class="workspace-kicker">What I work on</p>
+    <h2 id="work-heading">Practical product delivery</h2>
+  </header>
+  <div class="skills__grid">
+    <article class="stack gap-2">
     <Icon
       icon="terminal-window"
-      color="var(--accent-regular)"
-      size="2.5rem"
+      color="var(--accent-dark)"
+      size="2rem"
       gradient
     />
-    <h2>Full Stack</h2>
+    <h3>End-to-end engineering</h3>
     <p>
-      Expertise in both frontend and backend technologies. From interactive user
-      interfaces to server-side logic, I deliver comprehensive web solutions
-      tailored to your needs.
+      Laravel, Vue.js, and PostgreSQL work that turns product requirements into
+      dependable web features.
     </p>
-  </div>
-  <div class="stack gap-2 lg:gap-4">
-    <Icon icon="layout" color="var(--accent-regular)" size="2.5rem" gradient />
-    <h2>Modern Design</h2>
+    </article>
+    <article class="stack gap-2">
+    <Icon icon="layout" color="var(--accent-dark)" size="2rem" gradient />
+    <h3>Mobile and cloud delivery</h3>
     <p>
-      Modern, responsive designs that captivate users on any device. Your web
-      application will look stunning and function flawlessly on all screens.
+      React Native applications, AWS, Laravel Cloud, and CI/CD that help a
+      product reach users reliably.
     </p>
-  </div>
-  <div class="stack gap-2 lg:gap-4">
+    </article>
+    <article class="stack gap-2">
     <Icon
-      icon="performance"
-      color="var(--accent-regular)"
-      size="2.5rem"
+      icon="code"
+      color="var(--accent-dark)"
+      size="2rem"
       gradient
     />
-    <h2>Performance</h2>
+    <h3>Collaborative delivery</h3>
     <p>
-      Performance-driven development for blazing-fast websites. I ensure your
-      application loads quickly and delivers a seamless user experience.
+      Clear communication, mentoring, and coding standards that support steady
+      engineering work across a team.
     </p>
+    </article>
   </div>
 </section>
 
 <style>
-  .box {
+  .skills {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .skills__header h2 {
+    margin-top: 0.3rem;
+    font-size: clamp(1.6rem, 2.7vw, 2.1rem);
+  }
+
+  .skills__grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .skills article {
     border: 1px solid var(--gray-800);
-    border-radius: 0.75rem;
-    padding: 2rem;
-    background-color: var(--gray-999_40);
+    border-radius: 1rem;
+    padding: 1.35rem;
+    background: color-mix(in srgb, var(--gray-999) 58%, transparent);
     box-shadow: var(--shadow-sm);
   }
 
-  .skills {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-  }
-
-  .skills h2 {
+  .skills h3 {
     font-size: var(--text-lg);
   }
 
-  .skills p {
+  .skills p:not(.workspace-kicker) {
     color: var(--gray-300);
     max-width: 35rem;
   }
 
   @media (min-width: 60em) {
-    .box {
-      border-radius: 1.5rem;
-      padding: 2.5rem;
-    }
-
-    .skills {
+    .skills__grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 5rem;
+      gap: 1.25rem;
     }
 
-    .skills h2 {
-      font-size: var(--text-2xl);
+    .skills article {
+      padding: 1.65rem;
     }
   }
 </style>

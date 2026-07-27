@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import RepoCard from "../RepoCard/RepoCard";
-import Spinner from "../ui/Spinner/Spinner";
 import Alert from "../ui/Alert/Alert";
 import "./RepoList.styles.scss";
 
@@ -15,6 +14,26 @@ type PinnedRepos = {
   stars: number;
   forks: number;
 };
+
+function RepoCardSkeleton() {
+  return (
+    <article className="repo-card repo-card--skeleton" aria-hidden="true">
+      <div className="repo-card__header">
+        <span className="repo-card__skeleton-line repo-card__skeleton-line--title" />
+        <span className="repo-card__skeleton-icon" />
+      </div>
+      <div className="repo-card__skeleton-copy">
+        <span className="repo-card__skeleton-line" />
+        <span className="repo-card__skeleton-line" />
+        <span className="repo-card__skeleton-line repo-card__skeleton-line--short" />
+      </div>
+      <div className="repo-card__footer">
+        <span className="repo-card__skeleton-meta" />
+        <span className="repo-card__skeleton-stats" />
+      </div>
+    </article>
+  );
+}
 
 export default function RepoList() {
   const [repos, setRepos] = useState<PinnedRepos[]>([]);
@@ -70,12 +89,10 @@ export default function RepoList() {
 
   return (
     <>
-      <div className="repos">
+      {loading && <p className="sr-only" role="status">Loading GitHub-pinned builds.</p>}
+      <div className="repos" aria-busy={loading}>
         {loading ? (
-          <div className="spinner-wrapper">
-            <h4>Loading projects</h4>
-            <Spinner />
-          </div>
+          Array.from({ length: 6 }, (_, index) => <RepoCardSkeleton key={index} />)
         ) : (
           repos.map((repo) => <RepoCard key={repo.repo} {...repo} />)
         )}

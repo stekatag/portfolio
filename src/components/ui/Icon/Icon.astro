@@ -17,6 +17,9 @@ if (size) attrs.style = { "--size": size };
 
 const gradientId =
   "icon-gradient-" + Math.round(Math.random() * 10e12).toString(36);
+const renderedIconPath = gradient
+  ? iconPath.replaceAll("stroke=\"currentColor\"", `stroke=\"url(#${gradientId})\"`)
+  : iconPath;
 ---
 
 <svg
@@ -28,7 +31,7 @@ const gradientId =
   stroke={gradient ? `url(#${gradientId})` : color}
   {...attrs}
 >
-  <g set:html={iconPath} />
+  <g set:html={renderedIconPath} />
   {
     gradient && (
       <linearGradient

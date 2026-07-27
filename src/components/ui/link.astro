@@ -36,14 +36,7 @@ const styles = {
 <style lang="scss">
   .primary:link,
   .primary:visited {
-    text-decoration: 1px solid underline transparent;
-    text-underline-offset: 0.25em;
-    transition: text-decoration-color var(--theme-transition);
-
-    &:hover,
-    &:focus {
-      text-decoration-color: currentColor;
-    }
+    text-decoration: none;
   }
 
   .block {
@@ -58,25 +51,33 @@ const styles = {
     padding: 0.5rem 1rem;
     gap: 0.5rem;
     color: var(--accent-text-over);
-    border: 2px solid var(--accent-regular);
-    background-color: var(--accent-regular);
+    border: 1px solid color-mix(in srgb, var(--accent-light) 38%, var(--accent-regular));
+    background: linear-gradient(
+      115deg,
+      color-mix(in srgb, var(--accent-light) 22%, var(--accent-regular)),
+      var(--accent-regular) 58%,
+      color-mix(in srgb, var(--accent-dark) 20%, var(--accent-regular))
+    );
     border-radius: 999rem;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 22%, transparent), 0 0.4rem 1rem color-mix(in srgb, var(--accent-regular) 14%, transparent);
     font-size: var(--text-md);
     line-height: 1.35;
     white-space: nowrap;
-    transition: all var(--theme-transition);
+    transition: background var(--theme-transition), border-color var(--theme-transition), box-shadow var(--theme-transition), color var(--theme-transition);
 
     &.inverted {
-      background-color: transparent;
-      border: 2px solid var(--accent-dark);
+      background: linear-gradient(115deg, color-mix(in srgb, var(--accent-light) 11%, var(--gray-999)), color-mix(in srgb, var(--accent-regular) 8%, var(--gray-999)));
+      border-color: color-mix(in srgb, var(--accent-regular) 78%, var(--accent-dark));
       color: var(--accent-dark);
+      box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 20%, transparent);
     }
 
     &:hover,
-    &:focus {
-      background-color: var(--accent-dark);
-      border: 2px solid var(--accent-dark);
-      color: var(--accent-light);
+    &:focus-visible {
+      border-color: var(--accent-light);
+      background: linear-gradient(115deg, color-mix(in srgb, var(--accent-light) 30%, var(--accent-regular)), var(--accent-regular) 58%, color-mix(in srgb, var(--accent-dark) 24%, var(--accent-regular)));
+      box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 30%, transparent), 0 0.55rem 1.2rem color-mix(in srgb, var(--accent-regular) 21%, transparent);
+      color: var(--accent-text-over);
     }
   }
 </style>

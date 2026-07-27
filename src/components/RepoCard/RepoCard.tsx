@@ -30,7 +30,9 @@ export default function RepoCard({
     >
       <div className="repo-card__header">
         <h3 className="repo-card__title">{repo}</h3>
-        <Icon icon="github-logo" color="var(--gray-200)" size="2.5em" />
+        <span className="repo-card__github" aria-hidden="true">
+          <Icon icon="github-logo" color="var(--gray-200)" size="2.15em" />
+        </span>
       </div>
       <p className="repo-card__description">{description}</p>
       <div className="repo-card__footer">

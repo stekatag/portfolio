@@ -4,12 +4,10 @@ import "../styles/global.scss";
 interface Props {
   title?: string | undefined;
   description?: string | undefined;
+  canonical?: string | undefined;
 }
 
-const {
-  title = "Stefan Gogov | Portfolio",
-  description = "The portfolio of Stefan Gogov",
-} = Astro.props;
+const { title = "Stefan Gogov | Portfolio", description = "The portfolio of Stefan Gogov", canonical } = Astro.props;
 ---
 
 <meta charset="UTF-8" />
@@ -17,6 +15,7 @@ const {
 <meta name="viewport" content="width=device-width" />
 <meta name="generator" content={Astro.generator} />
 <title>{title}</title>
+{canonical && <link rel="canonical" href={canonical} />}
 
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />

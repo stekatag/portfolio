@@ -1,0 +1,247 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import Icon, { type Props as IconProps } from "../components/ui/Icon/Icon.astro";
+
+const actions: {
+  label: string;
+  href: string;
+  icon: IconProps["icon"];
+  external?: boolean;
+}[] = [
+  {
+    label: "View CV",
+    href: "https://app.enhancv.com/share/5e64dcd1/?utm_medium=growth&utm_campaign=share-resume&utm_source=dynamic",
+    icon: "readCV",
+    external: true,
+  },
+  {
+    label: "Send a message",
+    href: "mailto:stefangogov@proton.me",
+    icon: "message",
+  },
+  {
+    label: "Connect on LinkedIn",
+    href: "https://www.linkedin.com/in/stefan-gogov/",
+    icon: "linkedin",
+    external: true,
+  },
+  {
+    label: "Explore GitHub",
+    href: "https://github.com/stekatag",
+    icon: "github-logo",
+    external: true,
+  },
+  {
+    label: "View portfolio",
+    href: "/",
+    icon: "terminal-window",
+  },
+];
+---
+
+<BaseLayout
+  showChrome={false}
+  title="Stefan Gogov | Bio"
+  description="Product-minded Software Engineer building web, mobile, and cloud systems."
+>
+  <main class="bio-page wrapper">
+    <section class="bio-card" aria-labelledby="bio-title">
+      <div class="bio-card__topbar">
+        <a class="wordmark" href="/" aria-label="Stefan Gogov portfolio home">
+          <Icon
+            icon="terminal-window"
+            color="var(--accent-regular)"
+            size="1.6em"
+            gradient
+          />
+          Stefan Gogov
+        </a>
+        <ThemeToggle />
+      </div>
+
+      <div class="bio-card__intro">
+        <img
+          src="/assets/hero-img.webp"
+          alt="Headshot of Stefan Gogov"
+          width="160"
+          height="160"
+        />
+        <p class="eyebrow">Software Engineer</p>
+        <h1 id="bio-title">Stefan Gogov</h1>
+        <p>
+          Product-minded engineer building reliable products across web, mobile,
+          and cloud systems.
+        </p>
+      </div>
+
+      <nav class="bio-card__actions" aria-label="Professional links">
+        {
+          actions.map(({ label, href, icon, external }) => (
+            <a
+              href={href}
+              class="bio-action"
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
+            >
+              <Icon icon={icon} size="1.35em" />
+              <span>{label}</span>
+            </a>
+          ))
+        }
+      </nav>
+    </section>
+  </main>
+</BaseLayout>
+
+<style lang="scss">
+  .bio-page {
+    display: grid;
+    min-height: 100vh;
+    place-items: center;
+    padding-block: 2rem;
+  }
+
+  .bio-card {
+    width: min(100%, 38rem);
+    border: 1px solid var(--gray-800);
+    border-radius: 1.5rem;
+    background: color-mix(in srgb, var(--gray-999) 85%, transparent);
+    box-shadow: 0 12px 28px rgb(9 11 17 / 0.14);
+    overflow: hidden;
+  }
+
+  .bio-card__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  :global(html:not(.theme-dark)) .bio-card__topbar {
+    border-bottom-color: color-mix(in srgb, var(--gray-300) 58%, var(--gray-999));
+  }
+
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray-100);
+    font-family: var(--font-brand);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .bio-card__intro {
+    display: grid;
+    justify-items: center;
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+
+  .bio-card__intro img {
+    width: 7rem;
+    aspect-ratio: 1;
+    margin-bottom: 1.5rem;
+    border: 3px solid var(--gray-999);
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    box-shadow: var(--shadow-md);
+  }
+
+  .eyebrow {
+    color: var(--accent-dark);
+    font-family: var(--font-brand);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0.35rem 0 0.75rem;
+    font-size: clamp(var(--text-3xl), 10vw, var(--text-4xl));
+  }
+
+  .bio-card__intro > p:last-child {
+    max-width: 31ch;
+    color: var(--gray-300);
+    font-size: var(--text-md);
+    line-height: 1.6;
+  }
+
+  .bio-card__actions {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .bio-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 3.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--accent-regular);
+    border-radius: 0.9rem;
+    background: var(--gradient-accent);
+    color: var(--accent-text-over);
+    font-family: var(--font-brand);
+    font-size: var(--text-md);
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition:
+      transform var(--theme-transition),
+      box-shadow var(--theme-transition),
+      filter var(--theme-transition);
+  }
+
+  .bio-action:hover {
+    filter: saturate(1.2) brightness(1.08);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .bio-action:focus-visible,
+  .wordmark:focus-visible {
+    outline: 3px solid var(--accent-dark);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bio-action {
+      transition: none;
+    }
+  }
+
+  @media (min-width: 50em) {
+    .bio-page {
+      padding-block: 4rem;
+    }
+
+    .bio-card {
+      border-radius: 2rem;
+    }
+
+    .bio-card__topbar {
+      padding: 1.5rem 2rem;
+    }
+
+    .bio-card__intro {
+      padding: 2.75rem 2rem;
+    }
+
+    .bio-card__intro img {
+      width: 8rem;
+    }
+
+    .bio-card__actions {
+      padding: 0 2rem 2rem;
+    }
+  }
+</style>

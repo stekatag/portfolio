@@ -1,124 +1,47 @@
 ---
-// Layout import — provides basic page elements: <head>, <nav>, <footer> etc.
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-// Component Imports
-import Hero from "../components/Hero.astro";
 import Icon from "../components/ui/Icon/Icon.astro";
 import Link from "../components/ui/link.astro";
+import { cvUrl, deliveryAreas, experience, profile } from "../data/portfolio";
+
+const currentWork = experience[0];
 ---
 
 <BaseLayout>
-  <div class="stack gap-20 lg:gap-48">
-    <div class="wrapper stack gap-8 lg:gap-20">
-      <header class="hero">
-        <Hero
-          title="I build things for the {Web}"
-          tagline="Hi, 👋 I'm Stefan. I'm a web developer enthusiast and photographer."
-          align="start"
-        >
-          <div class="links">
-            <Link href="/contact" style="rounded" title="See Resume">
-              <Icon icon="readCV" size="1.33em" /> See Resume
-            </Link>
-            <Link href="/about" style="roundedInverted" title="About me">
-              <Icon icon="handwave" size="1.33em" /> About me
-            </Link>
-            <Link href="/projects" style="roundedInverted" title="Projects">
-              <Icon icon="code" size="1.33em" /> Projects
-            </Link>
-          </div>
-        </Hero>
+  <main class="workspace-page overview-page">
+    <header class="overview-hero">
+      <div>
+        <p class="workspace-kicker">Overview</p>
+        <h1>I build and ship products across the stack</h1>
+        <p>{profile.overview}</p>
+        <nav class="workspace-actions" aria-label="Overview actions">
+          <Link href={cvUrl} style="rounded" external title="View CV"><Icon icon="readCV" size="1.2em" /> View CV</Link>
+          <Link href="/connect" style="roundedInverted" title="Connect with Stefan"><Icon icon="message" size="1.2em" /> Send a message</Link>
+        </nav>
+      </div>
+      <img src="/assets/hero-img.webp" alt="Headshot of Stefan Gogov" width="480" height="620" />
+    </header>
 
-        <div class="avatar-wrapper">
-          <div class="overlay"></div>
-          <img
-            alt="Headshot of Stefan"
-            width="480"
-            height="620"
-            src="/assets/hero-img.webp"
-          />
-        </div>
-      </header>
-    </div>
-  </div>
+    <section class="overview-grid" aria-label="Portfolio overview">
+      <article class="workspace-panel workspace-panel--featured">
+        <div class="workspace-panel__header"><span class="status-dot status-dot--current"></span><p class="workspace-kicker">Work now</p></div>
+        <h2>{currentWork.role}</h2>
+        <p class="workspace-panel__context">{currentWork.context}</p>
+        <p>{currentWork.summary}</p>
+        <Link href="/work" title="View professional experience">View experience <Icon icon="terminal-window" size="1em" /></Link>
+      </article>
+      <article class="workspace-panel">
+        <p class="workspace-kicker">Delivery areas</p>
+        <ul class="delivery-list">
+          {deliveryAreas.map(({ title, detail }) => <li><strong>{title}</strong><span>{detail}</span></li>)}
+        </ul>
+      </article>
+      <article class="workspace-panel">
+        <p class="workspace-kicker">Personal projects</p>
+        <h2>Projects and experiments</h2>
+        <p>Explore the personal projects that shaped my product and engineering practice before professional experience.</p>
+        <Link href="/projects" title="View personal projects">Browse projects <Icon icon="code" size="1em" /></Link>
+      </article>
+    </section>
+  </main>
 </BaseLayout>
-
-<style lang="scss">
-  .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-
-    img {
-      object-fit: cover;
-      object-position: top;
-      border-radius: 1.5rem;
-      box-shadow: var(--shadow-md);
-    }
-  }
-
-  .links {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    a {
-      width: 100%;
-      justify-content: center;
-    }
-  }
-
-  @media (min-width: 50em) {
-    .hero {
-      display: grid;
-      grid-template-columns: 6fr 4fr;
-      padding-inline: 2.5rem;
-      gap: 3.75rem;
-
-      img {
-        aspect-ratio: 3 / 4;
-        border-radius: 2.5rem;
-        object-fit: cover;
-        position: relative;
-        filter: grayscale(75%) contrast(1);
-      }
-
-      .avatar-wrapper {
-        position: relative;
-      }
-
-      .overlay {
-        background-color: #d56bfbc2;
-        position: absolute;
-        width: 100%;
-        top: 0px;
-        bottom: 6px;
-        z-index: 2;
-        border-radius: 2.5rem;
-        opacity: 0.8;
-        mix-blend-mode: multiply;
-        transition: opacity 350ms linear 0s;
-
-        &:hover {
-          opacity: 0;
-          & + img {
-            filter: saturate(120%) grayscale(20%);
-          }
-        }
-      }
-    }
-
-    .links {
-      margin-top: 0.5rem;
-      flex-direction: row;
-      gap: 0.5rem;
-
-      a {
-        width: auto;
-        justify-content: flex-start;
-      }
-    }
-  }
-</style>

@@ -5,21 +5,7 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer>
-  <div class="group">
-    <p>
-      Built with
-      <Link
-        class="link"
-        href="https://astro.build/"
-        title="Astro website"
-        external
-      >
-        Astro
-        <Icon icon="rocket-launch" size="1.2em" />
-      </Link>
-    </p>
-    <p>&copy; {currentYear} Stefan Gogov</p>
-  </div>
+  <p class="copyright">&copy; {currentYear} Stefan Gogov</p>
   <p class="socials">
     <Link
       class="link flex-link"
@@ -50,12 +36,11 @@ const currentYear = new Date().getFullYear();
     </Link>
     <Link
       class="link flex-link"
-      href="https://sgogov.com/"
-      title="View Stefan's Photography Portfolio Page"
-      external
+      href="/bio"
+      title="View Stefan's bio page"
     >
-      <Icon icon="camera" size="1.2em" />
-      <span>Photography Portfolio</span>
+      <Icon icon="handwave" size="1.2em" />
+      <span>Bio</span>
     </Link>
   </p>
 </footer>
@@ -81,12 +66,6 @@ const currentYear = new Date().getFullYear();
     }
   }
 
-  .group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
   .socials {
     display: flex;
     justify-content: center;
@@ -100,12 +79,6 @@ const currentYear = new Date().getFullYear();
       flex-direction: row;
       justify-content: space-between;
       padding: 2.5rem 5rem;
-    }
-
-    .group {
-      flex-direction: row;
-      gap: 1rem;
-      flex-wrap: wrap;
     }
 
     .socials {

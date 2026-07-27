@@ -4,15 +4,18 @@
 
 // Component Imports
 import MainHead from "../components/MainHead.astro";
-import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
+import WorkspaceNav from "../components/WorkspaceNav.astro";
+import WorkspaceFooter from "../components/WorkspaceFooter.astro";
 
 interface Props {
   title?: string | undefined;
   description?: string | undefined;
+  chrome?: "workspace" | "none";
+  showChrome?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, chrome, showChrome } = Astro.props;
+const resolvedChrome = chrome ?? (showChrome === false ? "none" : "workspace");
 
 declare global {
   interface Window {
@@ -23,7 +26,7 @@ declare global {
 
 <html lang="en">
   <head>
-    <MainHead title={title} description={description} />
+    <MainHead title={title} description={description} canonical={Astro.url.href} />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1HGX0R9YB"
     ></script>
@@ -41,10 +44,23 @@ declare global {
     </script>
   </head>
   <body>
-    <div class="stack backgrounds">
-      <Nav />
-      <slot />
-      <Footer />
+    <div class:list={["backgrounds", { "workspace-shell": resolvedChrome === "workspace" }]}>
+      {
+        resolvedChrome === "workspace" ? (
+          <>
+            <WorkspaceNav currentPath={Astro.url.pathname} />
+            <div class="workspace-stage">
+              <a class="skip-link" href="#workspace-content">Skip to content</a>
+              <div id="workspace-content" class="workspace-content" tabindex="-1">
+                <slot />
+              </div>
+              <WorkspaceFooter />
+            </div>
+          </>
+        ) : (
+          <div class="stack"> <slot /> </div>
+        )
+      }
     </div>
 
     <script>
@@ -131,6 +147,12 @@ declare global {
           /*header2*/ normal,
           /*base*/ normal;
       }
+      .workspace-shell { min-height: 100%; }
+      .workspace-stage { min-width: 0; }
+      .workspace-content { min-height: calc(100vh - 4.5rem); }
+      .skip-link { position: fixed; z-index: 30; top: .75rem; left: .75rem; padding: .6rem .85rem; color: var(--accent-text-over); background: var(--accent-regular); border-radius: .5rem; transform: translateY(-150%); }
+      .skip-link:focus { transform: translateY(0); }
+      @media (min-width: 64em) { .workspace-shell { display: grid; grid-template-columns: 17.5rem minmax(0, 1fr); } .workspace-stage { min-height: 100vh; } .workspace-content { min-height: 100vh; } }
       @media (forced-colors: active) {
         /* Deactivate custom backgrounds for high contrast users. */
         .backgrounds {

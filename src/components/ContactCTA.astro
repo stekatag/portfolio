@@ -3,36 +3,38 @@ import CallToAction from "./CallToAction.astro";
 import Icon from "./ui/Icon/Icon.astro";
 import type { Props as IconProps } from "./ui/Icon/Icon.astro";
 
-const iconLinks: { label: string; href: string; icon: IconProps["icon"] }[] = [
+const iconLinks: {
+  label: string;
+  href: string;
+  icon: IconProps["icon"];
+  external?: boolean;
+}[] = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/stefan-gogov/",
     icon: "linkedin",
+    external: true,
   },
   {
     label: "GitHub",
     href: "https://github.com/stekatag",
     icon: "github-logo",
+    external: true,
   },
   {
-    label: "Personal Coding Blog",
-    href: "https://codingly.netlify.app/",
-    icon: "codeblock",
-  },
-  {
-    label: "Photography Portfolio",
-    href: "https://sgogov.com",
-    icon: "camera",
+    label: "Bio",
+    href: "/bio",
+    icon: "handwave",
   },
 ];
 ---
 
 <aside>
   <div class="contact-info stack gap-4">
-    <h2 class="contact-info__heading">Want to get in touch?</h2>
+    <h2 class="contact-info__heading">Let’s connect</h2>
     <p class="contact-info__description">
-      Find me across various social media platforms. Feel free to reach out
-      through any of these channels. Let's chat and bring your ideas to life!
+      For an engineering conversation, collaboration, or portfolio follow-up,
+      email is the most direct way to reach me.
     </p>
   </div>
   <div>
@@ -43,8 +45,14 @@ const iconLinks: { label: string; href: string; icon: IconProps["icon"] }[] = [
     <span>OR</span>
     <div class="socials">
       {
-        iconLinks.map(({ href, icon, label }) => (
-          <a href={href} class="social" target="_blank" title={label}>
+        iconLinks.map(({ href, icon, label, external }) => (
+          <a
+            href={href}
+            class="social"
+            target={external ? "_blank" : undefined}
+            rel={external ? "noopener noreferrer" : undefined}
+            title={label}
+          >
             <Icon icon={icon} />
           </a>
         ))

@@ -10,22 +10,29 @@ const textLinks: { label: string; href: string }[] = [
   { label: "Contact", href: "/contact/" },
 ];
 
-/** Icon links to social media — edit these with links to your profiles! */
-const iconLinks: { label: string; href: string; icon: IconProps["icon"] }[] = [
+/** Icon links to professional profiles and the compact bio card. */
+const iconLinks: {
+  label: string;
+  href: string;
+  icon: IconProps["icon"];
+  external?: boolean;
+}[] = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/stefan-gogov/",
     icon: "linkedin",
+    external: true,
   },
   {
     label: "GitHub",
     href: "https://github.com/stekatag",
     icon: "github-logo",
+    external: true,
   },
   {
-    label: "Coding Blog",
-    href: "https://codingly.netlify.app/",
-    icon: "codeblock",
+    label: "Bio",
+    href: "/bio",
+    icon: "handwave",
   },
 ];
 ---
@@ -76,8 +83,14 @@ const iconLinks: { label: string; href: string; icon: IconProps["icon"] }[] = [
     <div class="menu-footer">
       <div class="socials">
         {
-          iconLinks.map(({ href, icon, label }) => (
-            <a href={href} class="social" target="_blank" title={label}>
+          iconLinks.map(({ href, icon, label, external }) => (
+            <a
+              href={href}
+              class="social"
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
+              title={label}
+            >
               <span class="sr-only">{label}</span>
               <Icon icon={icon} />
             </a>

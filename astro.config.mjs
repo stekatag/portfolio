@@ -8,4 +8,8 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://sgogov.dev",
   integrations: [react(), sitemap()],
+  redirects: {
+    "/about": "/work",
+    "/contact": "/connect",
+  },
 });

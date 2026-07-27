@@ -3,7 +3,7 @@ import Icon from "./ui/Icon/Icon.astro";
 ---
 
 <theme-toggle>
-  <button>
+  <button title="Toggle color theme">
     <span class="sr-only">Dark theme</span>
     <span class="icon light" title="Light Mode"><Icon icon="sun" /></span>
     <span class="icon dark" title="Dark Mode"><Icon icon="moon-stars" /></span>
@@ -13,11 +13,11 @@ import Icon from "./ui/Icon/Icon.astro";
 <style>
   button {
     display: flex;
-    border: 0;
+    border: 1px solid color-mix(in srgb, var(--accent-regular) 58%, var(--gray-800));
     border-radius: 999rem;
     padding: 0;
-    background-color: var(--gray-999);
-    box-shadow: inset 0 0 0 1px var(--accent-overlay);
+    background: linear-gradient(120deg, color-mix(in srgb, var(--accent-light) 10%, var(--gray-999)), color-mix(in srgb, var(--accent-regular) 7%, var(--gray-999)));
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 48%, transparent), 0 0.3rem 0.9rem color-mix(in srgb, var(--accent-regular) 11%, transparent);
     cursor: pointer;
     /* Outline visible only to high contrast users */
     outline: 1px solid transparent;
@@ -31,7 +31,7 @@ import Icon from "./ui/Icon/Icon.astro";
     width: 2rem;
     height: 2rem;
     font-size: 1rem;
-    color: var(--accent-overlay);
+    color: var(--accent-regular);
   }
 
   .icon.light::before {
@@ -39,18 +39,29 @@ import Icon from "./ui/Icon/Icon.astro";
     z-index: -1;
     position: absolute;
     inset: 0;
-    background-color: var(--accent-regular);
+    background: linear-gradient(115deg, color-mix(in srgb, var(--accent-light) 22%, var(--accent-regular)), var(--accent-regular) 58%, color-mix(in srgb, var(--accent-dark) 20%, var(--accent-regular)));
     border-radius: 999rem;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 28%, transparent);
   }
 
   :global(.theme-dark) .icon.light::before {
     transform: translateX(100%);
   }
 
+  :global(.theme-dark) .icon.light {
+    color: var(--accent-dark);
+  }
+
   :global(.theme-dark) .icon.dark,
   :global(html:not(.theme-dark)) .icon.light,
   button[aria-pressed="false"] .icon.light {
     color: var(--accent-text-over);
+  }
+
+  button:hover,
+  button:focus-visible {
+    border-color: var(--accent-light);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 56%, transparent), 0 0.4rem 1rem color-mix(in srgb, var(--accent-regular) 22%, transparent);
   }
 
   @media (prefers-reduced-motion: no-preference) {
