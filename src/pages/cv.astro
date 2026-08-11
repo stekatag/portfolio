@@ -1,0 +1,17 @@
+---
+import CvViewer from "../components/CvViewer/CvViewer";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ActionLink from "../components/ui/ActionLink.astro";
+import Icon from "../components/ui/Icon/Icon.astro";
+import { destinations, routes } from "../config/site";
+import "../components/CvViewer/CvViewer.styles.scss";
+---
+
+<BaseLayout title="CV | Stefan Gogov" description="Stefan Gogov's curriculum vitae.">
+  <main class="workspace-page cv-page">
+    <CvViewer client:load />
+    <div class="cv-page__actions">
+      <ActionLink href={routes.connect} title={destinations.email.title}><Icon icon="message" size="1.2em" /> {destinations.email.label}</ActionLink>
+    </div>
+  </main>
+</BaseLayout>

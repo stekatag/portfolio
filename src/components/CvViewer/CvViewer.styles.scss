@@ -1,0 +1,70 @@
+.cv-viewer {
+  overflow: hidden;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--gray-999) 72%, transparent);
+  box-shadow: var(--surface-shadow);
+}
+
+.cv-viewer__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .65rem;
+  justify-content: space-between;
+  padding: .75rem;
+  border-bottom: 1px solid var(--surface-border);
+  background: var(--surface-background);
+}
+.cv-viewer__toolbar--skeleton { min-height: 3.75rem; }
+.cv-viewer__toolbar--skeleton span { width: 2.25rem; height: 2.25rem; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--gray-800) 72%, var(--gray-900)); }
+.cv-viewer__toolbar--skeleton span:nth-child(2) { width: 5rem; margin-right: auto; }
+
+.cv-viewer__page-controls, .cv-viewer__zoom-controls, .cv-viewer__document-actions { display: flex; align-items: center; gap: .35rem; }
+.cv-viewer__page-count, .cv-viewer__zoom-value { min-width: 5.25rem; color: var(--gray-300); font-size: var(--text-sm); font-variant-numeric: tabular-nums; text-align: center; }
+.cv-viewer__icon-button, .cv-viewer__zoom-value, .cv-viewer__download {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding: .25rem .5rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  color: var(--gray-200);
+  background: color-mix(in srgb, var(--gray-999) 88%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-100) 7%, transparent);
+  cursor: pointer;
+  font: inherit;
+  transition: transform var(--theme-transition), border-color var(--theme-transition), background var(--theme-transition), box-shadow var(--theme-transition), color var(--theme-transition);
+}
+.cv-viewer__zoom-value { min-width: 4.2rem; }
+.cv-viewer__icon-button:hover:not(:disabled), .cv-viewer__icon-button:focus-visible, .cv-viewer__zoom-value:hover, .cv-viewer__zoom-value:focus-visible, .cv-viewer__download:hover, .cv-viewer__download:focus-visible { border-color: var(--accent-regular); color: var(--accent-dark); background: color-mix(in srgb, var(--accent-regular) 9%, var(--gray-999)); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 14%, transparent), 0 .25rem .7rem color-mix(in srgb, var(--accent-regular) 18%, transparent); transform: translateY(-1px); }
+.cv-viewer__icon-button:disabled { cursor: not-allowed; opacity: .42; }
+.cv-viewer__download { text-decoration: none; }
+.cv-viewer__document { display: grid; place-items: start center; min-height: 30rem; max-height: 76vh; padding: 1rem; overflow: auto; touch-action: pan-x pan-y; overscroll-behavior: contain; background: var(--surface-background); }
+.cv-viewer__document:fullscreen { max-height: none; min-height: 100%; padding: 2rem; background: var(--surface-background); }
+.cv-viewer__canvas { display: block; max-width: none; background: #fff; box-shadow: 0 .35rem 1rem rgb(9 11 17 / .16); }
+.cv-viewer__message { align-self: center; color: var(--gray-300); }
+.cv-viewer__message a { color: var(--link-color); }
+.cv-viewer__skeleton { position: relative; width: min(100%, 51rem); min-height: 41rem; align-self: stretch; overflow: hidden; padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid var(--gray-800); background: var(--gray-999); box-shadow: 0 .75rem 2.25rem rgb(9 11 17 / .14); }
+.cv-viewer__skeleton::after { position: absolute; inset: 0; content: ""; background: linear-gradient(105deg, transparent 28%, color-mix(in srgb, var(--gray-999) 48%, transparent) 48%, transparent 68%); transform: translateX(-100%); animation: cv-skeleton-shimmer 1.7s ease-in-out infinite; }
+.cv-viewer__skeleton-photo, .cv-viewer__skeleton-title, .cv-viewer__skeleton-line, .cv-viewer__skeleton-heading { display: block; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--gray-800) 72%, var(--gray-900)); }
+.cv-viewer__skeleton-photo { float: right; width: clamp(5rem, 14vw, 8rem); aspect-ratio: 1; margin: 0 0 1.5rem 1.5rem; border-radius: var(--radius-pill); }
+.cv-viewer__skeleton-title { width: min(61%, 19rem); height: 2.2rem; margin: .35rem 0 1rem; }
+.cv-viewer__skeleton-line { width: 100%; height: .9rem; margin-top: .65rem; }
+.cv-viewer__skeleton-line--short { width: 62%; }
+.cv-viewer__skeleton-line--medium { width: 82%; }
+.cv-viewer__skeleton-heading { clear: both; width: 35%; height: 1.2rem; margin-top: 3rem; }
+.cv-page__actions { display: flex; justify-content: center; margin-top: 1.25rem; }
+
+@keyframes cv-skeleton-shimmer { to { transform: translateX(100%); } }
+
+@media (max-width: 36em) {
+  .cv-viewer__toolbar { justify-content: center; }
+  .cv-viewer__page-controls, .cv-viewer__zoom-controls { flex: 1; justify-content: center; }
+  .cv-viewer__document-actions { width: 100%; justify-content: center; }
+  .cv-viewer__document { min-height: 25rem; padding: .5rem; }
+  .cv-viewer__skeleton { min-height: 30rem; padding: 1.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) { .cv-viewer__skeleton::after { animation: none; } .cv-viewer__icon-button, .cv-viewer__zoom-value, .cv-viewer__download { transition: none; } .cv-viewer__icon-button:hover:not(:disabled), .cv-viewer__icon-button:focus-visible, .cv-viewer__zoom-value:hover, .cv-viewer__zoom-value:focus-visible, .cv-viewer__download:hover, .cv-viewer__download:focus-visible { transform: none; } }

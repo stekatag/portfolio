@@ -21,7 +21,7 @@ const isActive = (href: string) => href === "/" ? currentPath === "/" : currentP
         title={item.title}
         target={"external" in item && item.external ? "_blank" : undefined}
         rel={"external" in item && item.external ? "noopener noreferrer" : undefined}
-        aria-current={!quickLinks && isActive(item.href) ? "page" : undefined}
+        aria-current={isActive(item.href) ? "page" : undefined}
       >
         <Icon icon={item.icon} size="1.1em" />
         <span>{item.label}</span>

@@ -34,7 +34,7 @@ const { currentPath } = Astro.props;
       </div>
       <nav aria-label="Primary navigation"><WorkspaceLinkList items={workspaceNavigation} currentPath={currentPath} /></nav>
       <div class="workspace-quick-links">
-        <WorkspaceLinkList items={workspaceQuickLinks} quickLinks />
+        <WorkspaceLinkList items={workspaceQuickLinks} currentPath={currentPath} quickLinks />
         <ThemeToggle />
       </div>
     </aside>
@@ -51,7 +51,7 @@ const { currentPath } = Astro.props;
   <nav aria-label="Primary navigation"><WorkspaceLinkList items={workspaceNavigation} currentPath={currentPath} /></nav>
   <div class="workspace-sidebar__bottom">
     <div class="workspace-quick-links">
-      <WorkspaceLinkList items={workspaceQuickLinks} quickLinks />
+      <WorkspaceLinkList items={workspaceQuickLinks} currentPath={currentPath} quickLinks />
     </div>
     <div class="workspace-sidebar__theme"><ThemeToggle /></div>
     <p class="workspace-sidebar__credit">© {new Date().getFullYear()} Stefan Gogov</p>
@@ -187,7 +187,8 @@ const { currentPath } = Astro.props;
   :global(.workspace-nav-list), .workspace-quick-links, :global(.workspace-quick-link-list) { display: grid; gap: .35rem; }
   :global(.workspace-nav-list a), :global(.workspace-quick-links a) { display: flex; align-items: center; gap: .7rem; padding: .7rem .8rem; border: 1px solid transparent; border-radius: .7rem; color: var(--gray-300); text-decoration: none; }
   :global(.workspace-nav-list a:hover), :global(.workspace-nav-list a:focus-visible) { color: var(--gray-100); border-color: color-mix(in srgb, var(--accent-regular) 34%, var(--gray-800)); background: color-mix(in srgb, var(--accent-regular) 10%, var(--gray-999)); }
-  :global(.workspace-nav-list a[aria-current="page"]) {
+  :global(.workspace-nav-list a[aria-current="page"]),
+  :global(.workspace-quick-links a[aria-current="page"]) {
     color: var(--accent-text-over);
     border-color: color-mix(in srgb, var(--accent-light) 32%, var(--accent-regular));
     background: linear-gradient(
@@ -199,7 +200,7 @@ const { currentPath } = Astro.props;
     box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 16%, transparent);
   }
   .workspace-quick-links { margin-top: 1.5rem; }
-  :global(.workspace-quick-links a:hover), :global(.workspace-quick-links a:focus-visible) {
+  :global(.workspace-quick-links a:not([aria-current="page"]):hover), :global(.workspace-quick-links a:not([aria-current="page"]):focus-visible) {
     color: var(--gray-100);
     border-color: color-mix(in srgb, var(--accent-regular) 34%, var(--gray-800));
     background: color-mix(in srgb, var(--accent-regular) 10%, var(--gray-999));

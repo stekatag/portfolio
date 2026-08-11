@@ -13,6 +13,7 @@ export const routes = {
   projects: "/projects",
   connect: "/connect",
   bio: "/bio",
+  cv: "/cv",
 } as const;
 
 export type Destination = {
@@ -24,7 +25,7 @@ export type Destination = {
 
 export const destinations = {
   cv: {
-    href: "https://app.enhancv.com/share/5e64dcd1/?utm_medium=growth&utm_campaign=share-resume&utm_source=dynamic",
+    href: routes.cv,
     label: "View CV",
     title: "View Stefan's CV",
     external: true,
