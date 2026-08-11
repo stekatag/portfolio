@@ -28,7 +28,7 @@ export const destinations = {
     href: routes.cv,
     label: "View CV",
     title: "View Stefan's CV",
-    external: true,
+    external: false,
   },
   email: {
     href: "mailto:stefangogov@proton.me",
