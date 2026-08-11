@@ -16,6 +16,7 @@ export default function CvViewer() {
   const pageRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const renderTaskRef = useRef<RenderTask | null>(null);
+  const renderRetryRef = useRef<number | undefined>(undefined);
   const pointersRef = useRef(new Map<number, PointerPosition>());
   const pinchRef = useRef<{ distance: number; zoom: number } | null>(null);
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null);
@@ -62,14 +63,20 @@ export default function CvViewer() {
     };
   }, []);
 
-  const renderPage = useCallback(async () => {
+  const renderPage = useCallback(async (attempt = 0) => {
     const canvas = canvasRef.current;
     const pageContainer = pageRef.current;
     const viewport = viewportRef.current;
     if (!pdf || !canvas || !pageContainer || !viewport) return;
 
     renderTaskRef.current?.cancel();
-    const page = await pdf.getPage(pageNumber);
+    let page;
+    try {
+      page = await pdf.getPage(pageNumber);
+    } catch {
+      if (attempt === 0) renderRetryRef.current = window.setTimeout(() => void renderPage(1), 150);
+      return;
+    }
     const initialViewport = page.getViewport({ scale: 1 });
     const availableWidth = Math.max(viewport.clientWidth - 32, 280);
     const fitScale = Math.min(1.35, availableWidth / initialViewport.width);
@@ -89,10 +96,8 @@ export default function CvViewer() {
 
     try {
       await task.promise;
-    } catch (error) {
-      if (!(error instanceof Error) || error.name !== "RenderingCancelledException") {
-        setStatus("error");
-      }
+    } catch {
+      if (attempt === 0) renderRetryRef.current = window.setTimeout(() => void renderPage(1), 150);
     }
   }, [pageNumber, pdf, zoom]);
 
@@ -111,6 +116,7 @@ export default function CvViewer() {
 
   useEffect(() => () => {
     renderTaskRef.current?.cancel();
+    window.clearTimeout(renderRetryRef.current);
   }, []);
 
   const canZoomOut = zoom > MIN_ZOOM;
