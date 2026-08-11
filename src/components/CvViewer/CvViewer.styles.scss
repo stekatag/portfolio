@@ -21,7 +21,7 @@
 .cv-viewer__toolbar--skeleton span:nth-child(2) { width: 5rem; margin-right: auto; }
 
 .cv-viewer__page-controls, .cv-viewer__zoom-controls, .cv-viewer__document-actions { display: flex; align-items: center; gap: .35rem; }
-.cv-viewer__page-count, .cv-viewer__zoom-value { min-width: 5.25rem; color: var(--gray-300); font-size: var(--text-sm); font-variant-numeric: tabular-nums; text-align: center; }
+.cv-viewer__zoom-value { min-width: 4.2rem; color: var(--gray-300); font-size: var(--text-sm); font-variant-numeric: tabular-nums; text-align: center; }
 .cv-viewer__icon-button, .cv-viewer__zoom-value, .cv-viewer__download {
   display: inline-grid;
   place-items: center;
@@ -37,7 +37,6 @@
   font: inherit;
   transition: transform var(--theme-transition), border-color var(--theme-transition), background var(--theme-transition), box-shadow var(--theme-transition), color var(--theme-transition);
 }
-.cv-viewer__zoom-value { min-width: 4.2rem; }
 .cv-viewer__icon-button:hover:not(:disabled), .cv-viewer__icon-button:focus-visible, .cv-viewer__zoom-value:hover, .cv-viewer__zoom-value:focus-visible, .cv-viewer__download:hover, .cv-viewer__download:focus-visible { border-color: var(--accent-regular); color: var(--accent-dark); background: color-mix(in srgb, var(--accent-regular) 9%, var(--gray-999)); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gray-999) 14%, transparent), 0 .25rem .7rem color-mix(in srgb, var(--accent-regular) 18%, transparent); transform: translateY(-1px); }
 .cv-viewer__icon-button:disabled { cursor: not-allowed; opacity: .42; }
 .cv-viewer__download { text-decoration: none; }
@@ -60,9 +59,7 @@
 @keyframes cv-skeleton-shimmer { to { transform: translateX(100%); } }
 
 @media (max-width: 36em) {
-  .cv-viewer__toolbar { justify-content: center; }
-  .cv-viewer__page-controls, .cv-viewer__zoom-controls { flex: 1; justify-content: center; }
-  .cv-viewer__document-actions { width: 100%; justify-content: center; }
+  .cv-viewer__toolbar { justify-content: space-between; }
   .cv-viewer__document { min-height: 25rem; padding: .5rem; }
   .cv-viewer__skeleton { min-height: 30rem; padding: 1.25rem; }
 }

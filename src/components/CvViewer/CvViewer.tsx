@@ -7,6 +7,7 @@ const PDF_URL = "/assets/cv.pdf";
 const MIN_ZOOM = 0.7;
 const MAX_ZOOM = 2;
 const ZOOM_STEP = 0.15;
+const MAX_LOAD_ATTEMPTS = 3;
 
 type PointerPosition = { x: number; y: number };
 
@@ -25,14 +26,15 @@ export default function CvViewer() {
   useEffect(() => {
     let active = true;
     let destroyLoadingTask = () => {};
+    let retryTimer: number | undefined;
 
-    const loadPdf = async () => {
+    const loadPdf = async (attempt = 0) => {
       try {
         const { GlobalWorkerOptions, getDocument } = await import("pdfjs-dist");
         if (!active) return;
 
         GlobalWorkerOptions.workerSrc = pdfWorker;
-        const loadingTask = getDocument({ url: PDF_URL });
+        const loadingTask = getDocument({ url: PDF_URL, disableRange: true, disableStream: true });
         destroyLoadingTask = () => loadingTask.destroy();
         const document = await loadingTask.promise;
         if (!active) return;
@@ -41,7 +43,12 @@ export default function CvViewer() {
         setPageCount(document.numPages);
         setStatus("ready");
       } catch {
-        if (active) setStatus("error");
+        if (!active) return;
+        if (attempt < MAX_LOAD_ATTEMPTS - 1) {
+          retryTimer = window.setTimeout(() => void loadPdf(attempt + 1), 300 * (attempt + 1));
+          return;
+        }
+        setStatus("error");
       }
     };
 
@@ -50,6 +57,7 @@ export default function CvViewer() {
     return () => {
       active = false;
       destroyLoadingTask();
+      window.clearTimeout(retryTimer);
     };
   }, []);
 
@@ -152,15 +160,14 @@ export default function CvViewer() {
         <div className="cv-viewer__toolbar cv-viewer__toolbar--skeleton" aria-hidden="true"><span /><span /><span /></div>
       ) : (
         <div className="cv-viewer__toolbar" aria-label="CV controls">
-          <div className="cv-viewer__page-controls">
+          {pageCount > 1 && <div className="cv-viewer__page-controls">
             <button type="button" className="cv-viewer__icon-button" onClick={() => setPageNumber((current) => current - 1)} disabled={pageNumber <= 1} aria-label="Previous page" title="Previous page">
               <span aria-hidden="true">←</span>
             </button>
-            <span className="cv-viewer__page-count" aria-live="polite">Page {pageNumber} of {pageCount || "…"}</span>
-            <button type="button" className="cv-viewer__icon-button" onClick={() => setPageNumber((current) => current + 1)} disabled={!pageCount || pageNumber >= pageCount} aria-label="Next page" title="Next page">
+            <button type="button" className="cv-viewer__icon-button" onClick={() => setPageNumber((current) => current + 1)} disabled={pageNumber >= pageCount} aria-label="Next page" title="Next page">
               <span aria-hidden="true">→</span>
             </button>
-          </div>
+          </div>}
 
           <div className="cv-viewer__zoom-controls">
             <button type="button" className="cv-viewer__icon-button" onClick={() => updateZoom(-ZOOM_STEP)} disabled={!canZoomOut} aria-label="Zoom out" title="Zoom out">−</button>
