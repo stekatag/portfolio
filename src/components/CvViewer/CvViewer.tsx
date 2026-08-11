@@ -5,7 +5,7 @@ import Icon from "../ui/Icon/Icon";
 
 const PDF_URL = "/assets/cv.pdf";
 const MIN_ZOOM = 0.7;
-const MAX_ZOOM = 2;
+const MAX_ZOOM = 2.5;
 const ZOOM_STEP = 0.15;
 const MAX_LOAD_ATTEMPTS = 3;
 
@@ -13,6 +13,7 @@ type PointerPosition = { x: number; y: number };
 
 export default function CvViewer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const renderTaskRef = useRef<RenderTask | null>(null);
   const pointersRef = useRef(new Map<number, PointerPosition>());
@@ -63,8 +64,9 @@ export default function CvViewer() {
 
   const renderPage = useCallback(async () => {
     const canvas = canvasRef.current;
+    const pageContainer = pageRef.current;
     const viewport = viewportRef.current;
-    if (!pdf || !canvas || !viewport) return;
+    if (!pdf || !canvas || !pageContainer || !viewport) return;
 
     renderTaskRef.current?.cancel();
     const page = await pdf.getPage(pageNumber);
@@ -72,15 +74,15 @@ export default function CvViewer() {
     const availableWidth = Math.max(viewport.clientWidth - 32, 280);
     const fitScale = Math.min(1.35, availableWidth / initialViewport.width);
     const cssViewport = page.getViewport({ scale: fitScale * zoom });
-    const pixelScale = Math.min(window.devicePixelRatio || 1, 2);
+    const pixelScale = 2;
     const renderViewport = page.getViewport({ scale: fitScale * zoom * pixelScale });
     const context = canvas.getContext("2d");
 
     if (!context) return;
     canvas.width = Math.ceil(renderViewport.width);
     canvas.height = Math.ceil(renderViewport.height);
-    canvas.style.width = `${Math.ceil(cssViewport.width)}px`;
-    canvas.style.height = `${Math.ceil(cssViewport.height)}px`;
+    pageContainer.style.width = `${Math.ceil(cssViewport.width)}px`;
+    pageContainer.style.height = `${Math.ceil(cssViewport.height)}px`;
 
     const task = page.render({ canvas, canvasContext: context, viewport: renderViewport });
     renderTaskRef.current = task;
@@ -107,7 +109,9 @@ export default function CvViewer() {
     return () => observer.disconnect();
   }, [pdf, renderPage]);
 
-  useEffect(() => () => renderTaskRef.current?.cancel(), []);
+  useEffect(() => () => {
+    renderTaskRef.current?.cancel();
+  }, []);
 
   const canZoomOut = zoom > MIN_ZOOM;
   const canZoomIn = zoom < MAX_ZOOM;
@@ -130,8 +134,6 @@ export default function CvViewer() {
 
   const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     pointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
-    event.currentTarget.setPointerCapture(event.pointerId);
-
     if (pointersRef.current.size === 2) {
       pinchRef.current = { distance: getPinchDistance(), zoom };
     }
@@ -182,10 +184,10 @@ export default function CvViewer() {
         </div>
       )}
 
-      <div className="cv-viewer__document" ref={viewportRef} aria-busy={status === "loading"} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerEnd} onPointerCancel={onPointerEnd}>
+      <div className={`cv-viewer__document${status === "loading" ? " cv-viewer__document--loading" : ""}`} ref={viewportRef} aria-busy={status === "loading"} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerEnd} onPointerCancel={onPointerEnd}>
         {status === "loading" && <><p className="sr-only" role="status">Loading CV preview.</p><div className="cv-viewer__skeleton" aria-hidden="true"><span className="cv-viewer__skeleton-photo" /><span className="cv-viewer__skeleton-title" /><span className="cv-viewer__skeleton-line" /><span className="cv-viewer__skeleton-line cv-viewer__skeleton-line--short" /><span className="cv-viewer__skeleton-heading" /><span className="cv-viewer__skeleton-line" /><span className="cv-viewer__skeleton-line" /><span className="cv-viewer__skeleton-line cv-viewer__skeleton-line--medium" /></div></>}
         {status === "error" && <p className="cv-viewer__message">The CV preview could not load. <a href={PDF_URL}>Open the PDF directly</a>.</p>}
-        {status === "ready" && <canvas ref={canvasRef} className="cv-viewer__canvas" aria-label={`Page ${pageNumber} of Stefan Gogov's CV`} />}
+        {status === "ready" && <div ref={pageRef} className="cv-viewer__page" aria-label={`Page ${pageNumber} of Stefan Gogov's CV`}><canvas ref={canvasRef} className="cv-viewer__canvas" /></div>}
       </div>
     </section>
   );
